@@ -10,16 +10,13 @@
 typedef struct menu menu_t;
 
 //Crea menu con un titulo, titulo puede ser NULL
-menu_t *crear_menu(const char *titulo, const char *estilos);
+menu_t *crear_menu(const char *titulo, const char *estilo_titulo);
 
 //Agrega las opciones al menu
-bool menu_agregar_opcion(menu_t *menu, const char *texto, char tecla);
+bool menu_agregar_opcion(menu_t *menu, const char *texto, char tecla, char *estilo_opcion);
 
 //Agrega titulo si no habia, si habia lo cambia, y si titulo es NULL se lo borra
-bool menu_modificar_titulo(menu_t *menu, const char *titulo);
-
-//Cambia el estilo del menu seleccionado
-bool menu_editar_estilo(menu_t *menu, const char *estilos_ansi);
+bool menu_modificar_titulo(menu_t *menu, const char *titulo, const char *estilo_titulo);
 
 //Muestra el menu y devuelve la tecla que el usuario oprima
 char mostrar_menu(menu_t *menu);

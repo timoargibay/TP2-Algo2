@@ -9,11 +9,11 @@ void prueba_crear_menu()
                 return;
         }       
 
-        menu_agregar_opcion(prueba, "Se ve bien este menu!", 'S');
-        menu_agregar_opcion(prueba, "No se ve bien el menu :( (como ves esto entonces?)", 'N');
+        menu_agregar_opcion(prueba, "Se ve bien este menu!", 'S', ANSI_COLOR_GREEN);
+        menu_agregar_opcion(prueba, "No se ve bien el menu :( (como ves esto entonces?)", 'N', ANSI_COLOR_RED);
         char input = mostrar_menu(prueba);
         destruir_menu(prueba);
-        pa2m_afirmar(input == 'S' || input == 's', "Se muestra un menu correctamente");
+        pa2m_afirmar(input == 's', "Se muestra un menu correctamente");
 }
 int main() {
         prueba_crear_menu();

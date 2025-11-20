@@ -6,12 +6,13 @@
 typedef struct opciones {
         char tecla;
         char *texto;
+        char *estilo;
 } opcion_t;
 
 struct menu {
         char *titulo;
+        char *estilo_titulo;
         lista_t *opciones;
-        char *estilos;
 };
 
 /////////////////////////////////////////////////////////////////
@@ -33,7 +34,7 @@ static char *copiar_string(const char *string)
 	return copia;
 }
 
-static opcion_t *nueva_opcion(const char *texto, char tecla)
+static opcion_t *nueva_opcion(const char *texto, char tecla, char *estilo)
 {
         if(texto == NULL)
                 return NULL;
@@ -44,6 +45,7 @@ static opcion_t *nueva_opcion(const char *texto, char tecla)
 
         nueva_opcion->tecla = tecla;
         nueva_opcion->texto = copiar_string(texto);
+        nueva_opcion->estilo = (estilo != NULL) ? copiar_string(estilo) : NULL;
         if(nueva_opcion->texto == NULL) {
                 free(nueva_opcion);
                 return NULL;
@@ -57,8 +59,19 @@ static void liberar_opcion(void *opcion) {
                 return;
 
         opcion_t *oopcion = opcion;
+
+        if(oopcion->estilo != NULL)
+                free(oopcion->estilo);
+        
         free(oopcion->texto);
         free(oopcion);
+}
+
+char tolower_propio(char l) {
+        if(l >= 'A' && l <= 'Z')
+                return l+32;
+
+        return l;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -67,7 +80,7 @@ static void liberar_opcion(void *opcion) {
 /////////////////                               /////////////////
 /////////////////////////////////////////////////////////////////
 
-menu_t *crear_menu(const char *titulo, const char *estilos)
+menu_t *crear_menu(const char *titulo, const char *estilo_titulo)
 {
         menu_t *nuevo_menu = malloc(sizeof(menu_t));
         if(nuevo_menu == NULL)
@@ -79,37 +92,30 @@ menu_t *crear_menu(const char *titulo, const char *estilos)
                 return NULL;
         }
 
-        if(titulo != NULL) {
-                nuevo_menu->titulo = copiar_string(titulo);
-                if(nuevo_menu->titulo == NULL) {
-                        lista_destruir(nuevo_menu->opciones);
-                        free(nuevo_menu);
-                        return NULL;
-                }
-        } else {
-                nuevo_menu->titulo = NULL;
+        nuevo_menu->estilo_titulo = (estilo_titulo != NULL) ? copiar_string(estilo_titulo) : NULL;
+        if(nuevo_menu->estilo_titulo == NULL) {
+                lista_destruir(nuevo_menu->opciones);
+                free(nuevo_menu);
+                return NULL;
         }
 
-        if(estilos != NULL) {
-                nuevo_menu->estilos = copiar_string(estilos);
-                if(nuevo_menu->estilos == NULL) {
-                        lista_destruir(nuevo_menu->opciones);
-                        free(nuevo_menu);
-                        return NULL;
-                }
-        } else {
-                nuevo_menu->estilos = NULL;
+        nuevo_menu->titulo = copiar_string(titulo);
+        if(nuevo_menu->titulo == NULL) {
+                lista_destruir(nuevo_menu->opciones);
+                free(nuevo_menu->estilo_titulo);
+                free(nuevo_menu);
+                return NULL;
         }
 
         return nuevo_menu;        
 }
 
-bool menu_agregar_opcion(menu_t *menu, const char *texto, char tecla)
+bool menu_agregar_opcion(menu_t *menu, const char *texto, char tecla, char *estilo_opcion)
 {
         if(menu == NULL || texto == NULL || tecla == 0) 
                 return false;
 
-        opcion_t *opcion = nueva_opcion(texto, tecla);
+        opcion_t *opcion = nueva_opcion(texto, tecla, estilo_opcion);
         if(opcion == NULL)
                 return false;
 
@@ -120,43 +126,25 @@ bool menu_agregar_opcion(menu_t *menu, const char *texto, char tecla)
         return estado;
 }
 
-bool menu_modificar_titulo(menu_t *menu, const char *titulo)
+bool menu_modificar_titulo(menu_t *menu, const char *titulo, const char *estilo_titulo)
 {
         if(menu == NULL)
                 return false;
+        
+        //Si titulo o estilo_titulo son NULL, copiar string me dara NULL y no hay problemas
+        char *nuevo_titulo = copiar_string(titulo);
+        char *nuevo_estilo_titulo = copiar_string(estilo_titulo);
 
-        if(titulo == NULL) {
-                if(menu->titulo != NULL) 
-                        free(menu->titulo);
-
-                menu->titulo = NULL;
-                return true;
+        if((titulo && !nuevo_titulo) || (estilo_titulo && !nuevo_estilo_titulo)) {
+                free(nuevo_titulo);
+                free(nuevo_estilo_titulo);
+                return false;
         }
 
-        char *nuevo_titulo = copiar_string(titulo);
-        if(nuevo_titulo == NULL)
-                return false;
-
-        if(menu->titulo != NULL)
-                free(menu->titulo);
-
+        free(menu->titulo);
+        free(menu->estilo_titulo);
         menu->titulo = nuevo_titulo;
-        return true;
-}
-
-bool menu_editar_estilo(menu_t *menu, const char *estilos_ansi)
-{
-        if(menu == NULL || estilos_ansi == NULL)
-                return false;
-
-        char *nuevo = copiar_string(estilos_ansi);
-        if(nuevo == NULL)
-                return false;
-
-        if(menu->estilos != NULL)
-                free(menu->estilos);
-
-        menu->estilos = nuevo;
+        menu->estilo_titulo = nuevo_estilo_titulo;
 
         return true;
 }
@@ -170,13 +158,13 @@ char mostrar_menu(menu_t *menu)
         
         char input[2] = {0};
         int limpiador;
-        const char *estilos = (menu->estilos ? menu->estilos : "");
+        const char *estilo_titulo = (menu->estilo_titulo ? menu->estilo_titulo : "");
         
         printf(ANSI_ALTERNATIVE_SCREEN
                 ANSI_CURSOR_TOP);
         
         if(menu->titulo != NULL)
-                printf( "%s\n===%s===\n\n\n" ANSI_COLOR_RESET, estilos, menu->titulo);
+                printf( "%s\n===%s===\n\n\n" ANSI_COLOR_RESET, estilo_titulo, menu->titulo);
         
         lista_iterador_t *iterador = lista_iterador_crear(menu->opciones);
         if(iterador == NULL) {
@@ -186,10 +174,12 @@ char mostrar_menu(menu_t *menu)
 
         
         opcion_t *opcion_actual = lista_iterador_obtener_actual(iterador);
-        
+        char *estilo_opcion = (opcion_actual->estilo ? opcion_actual->estilo : "");
+
         while(opcion_actual != NULL) {
+                estilo_opcion = (opcion_actual->estilo ? opcion_actual->estilo : "");
                 printf("%s- %c: %s\n",
-                        estilos,
+                        estilo_opcion,
                         opcion_actual->tecla,
                         opcion_actual->texto);
 
@@ -203,11 +193,8 @@ char mostrar_menu(menu_t *menu)
         fgets(input, 2, stdin);
         while((limpiador = getchar()) != '\n' && limpiador != EOF);
         printf(ANSI_RETURN_SCREEN);
-
-        if(input[0] == '\n')
-                return 0;
         
-        return input[0];
+        return tolower_propio(input[0]);
 }
 
 bool menu_borrar_opcion(menu_t *menu, char tecla_opcion_a_borrar)
@@ -286,8 +273,8 @@ void destruir_menu(menu_t *menu)
         if(menu == NULL)
                 return;
 
-        if(menu->estilos != NULL)
-                free(menu->estilos);
+        if(menu->estilo_titulo != NULL)
+                free(menu->estilo_titulo);
 
         if(menu->titulo != NULL)
                 free(menu->titulo);
