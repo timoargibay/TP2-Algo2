@@ -1,7 +1,4 @@
 #include "menu.h"
-#define ANSI_CURSOR_TOP "\033[H"
-#define ANSI_ALTERNATIVE_SCREEN "\033[?1049h"
-#define ANSI_RETURN_SCREEN "\033[?1049l"
 
 typedef struct opciones {
 	char tecla;
@@ -68,6 +65,12 @@ static void liberar_opcion(void *opcion)
 	free(oopcion);
 }
 
+/////////////////////////////////////////////////////////////////
+/////////////////                               /////////////////
+/////////////////       Funciones publicas      /////////////////
+/////////////////                               /////////////////
+/////////////////////////////////////////////////////////////////
+
 char tolower_propio(char l)
 {
 	if (l >= 'A' && l <= 'Z')
@@ -75,12 +78,6 @@ char tolower_propio(char l)
 
 	return l;
 }
-
-/////////////////////////////////////////////////////////////////
-/////////////////                               /////////////////
-/////////////////       Funciones publicas      /////////////////
-/////////////////                               /////////////////
-/////////////////////////////////////////////////////////////////
 
 //Si devuelve '\0' / 0, hubo un error
 char leer_un_char(FILE *leer_desde)
@@ -93,13 +90,12 @@ char leer_un_char(FILE *leer_desde)
 
 	if (leer_desde == stdin)
 		while ((limpiador = fgetc(leer_desde)) != '\n' &&
-		       limpiador != EOF)
-			;
+		       limpiador != EOF);
 
 	return tolower_propio((char)c);
 }
 
-menu_t *crear_menu(const char *titulo, const char *estilo_titulo)
+menu_t *menu_crear(const char *titulo, const char *estilo_titulo)
 {
 	menu_t *nuevo_menu = malloc(sizeof(menu_t));
 	if (nuevo_menu == NULL)
@@ -113,19 +109,19 @@ menu_t *crear_menu(const char *titulo, const char *estilo_titulo)
 
 	nuevo_menu->estilo_titulo =
 		(estilo_titulo != NULL) ? copiar_string(estilo_titulo) : NULL;
-	if (nuevo_menu->estilo_titulo == NULL) {
-		lista_destruir(nuevo_menu->opciones);
-		free(nuevo_menu);
-		return NULL;
-	}
+	//if (nuevo_menu->estilo_titulo == NULL) {
+	//	lista_destruir(nuevo_menu->opciones);
+	//	free(nuevo_menu);
+	//	return NULL;
+	//}
 
-	nuevo_menu->titulo = copiar_string(titulo);
-	if (nuevo_menu->titulo == NULL) {
-		lista_destruir(nuevo_menu->opciones);
-		free(nuevo_menu->estilo_titulo);
-		free(nuevo_menu);
-		return NULL;
-	}
+	nuevo_menu->titulo = (titulo != NULL) ? copiar_string(titulo) : NULL;
+	//if (nuevo_menu->titulo == NULL) {
+	//	lista_destruir(nuevo_menu->opciones);
+	//	free(nuevo_menu->estilo_titulo);
+	//	free(nuevo_menu);
+	//	return NULL;
+	//}	
 
 	return nuevo_menu;
 }
@@ -172,7 +168,7 @@ bool menu_modificar_titulo(menu_t *menu, const char *titulo,
 	return true;
 }
 
-char mostrar_menu(menu_t *menu)
+char menu_mostrar(menu_t *menu, bool alternative_screen)
 {
 	if (menu == NULL) {
 		printf(ANSI_COLOR_BOLD ANSI_COLOR_RED
@@ -183,7 +179,8 @@ char mostrar_menu(menu_t *menu)
 	const char *estilo_titulo =
 		(menu->estilo_titulo ? menu->estilo_titulo : "");
 
-	printf(ANSI_ALTERNATIVE_SCREEN ANSI_CURSOR_TOP);
+	if (alternative_screen)
+		printf(ANSI_ALTERNATIVE_SCREEN ANSI_CURSOR_TOP);
 
 	if (menu->titulo != NULL)
 		printf("%s\n===%s===\n\n\n" ANSI_COLOR_RESET, estilo_titulo,
@@ -212,8 +209,12 @@ char mostrar_menu(menu_t *menu)
 	}
 
 	printf(ANSI_BG_RESET ANSI_COLOR_RESET "\n");
+
 	lista_iterador_destruir(iterador);
 	char input = leer_un_char(stdin);
+
+	if (alternative_screen)
+		printf(ANSI_NORMAL_SCREEN);
 
 	return tolower_propio(input);
 }
@@ -291,7 +292,7 @@ size_t menu_cantidad_opciones(menu_t *menu)
 	return lista_cantidad(menu->opciones);
 }
 
-void destruir_menu(menu_t *menu)
+void menu_destruir(menu_t *menu)
 {
 	if (menu == NULL)
 		return;
@@ -302,6 +303,10 @@ void destruir_menu(menu_t *menu)
 	if (menu->titulo != NULL)
 		free(menu->titulo);
 
-	lista_destruir_todo(menu->opciones, liberar_opcion);
+	if(lista_cantidad(menu->opciones) >= 1)
+		lista_destruir_todo(menu->opciones, liberar_opcion);
+	else
+		lista_destruir(menu->opciones);
+	
 	free(menu);
 }

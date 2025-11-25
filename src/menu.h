@@ -1,6 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 #include "ansi.h"
+#include "ansi_extended.h"
 #include "lista.h"
 #include <stdlib.h>
 #include <stdbool.h>
@@ -9,8 +10,12 @@
 
 typedef struct menu menu_t;
 
+char tolower_propio(char l);
+
+char leer_un_char(FILE *leer_desde);
+
 //Crea menu con un titulo, titulo puede ser NULL
-menu_t *crear_menu(const char *titulo, const char *estilo_titulo);
+menu_t *menu_crear(const char *titulo, const char *estilo_titulo);
 
 //Agrega las opciones al menu
 bool menu_agregar_opcion(menu_t *menu, const char *texto, char tecla,
@@ -21,7 +26,7 @@ bool menu_modificar_titulo(menu_t *menu, const char *titulo,
 			   const char *estilo_titulo);
 
 //Muestra el menu y devuelve la tecla que el usuario oprima
-char mostrar_menu(menu_t *menu);
+char menu_mostrar(menu_t *menu, bool alternative_screen);
 
 //Borra una opcion del menu
 bool menu_borrar_opcion(menu_t *menu, char tecla_opcion_a_borrar);
@@ -34,6 +39,6 @@ bool menu_modificar_texto_opcion(menu_t *menu, char tecla_opcion,
 size_t menu_cantidad_opciones(menu_t *menu);
 
 //Libera toda la memoria asociada al menu
-void destruir_menu(menu_t *menu);
+void menu_destruir(menu_t *menu);
 
 #endif // MENU_H

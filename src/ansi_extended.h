@@ -1,0 +1,20 @@
+#ifndef __ANSI_EXTENDED_H__
+#define __ANSI_EXTENDED_H__
+
+#define ANSI_ALTERNATIVE_SCREEN "\033[?1049h"
+#define ANSI_NORMAL_SCREEN "\033[?1049l"
+
+#define ANSI_CURSOR_TOP "\033[H"
+#define ANSI_CURSOR_HOME "\033[H"
+#define ANSI_CURSOR_HIDE "\033[?25l"
+#define ANSI_CURSOR_SHOW "\033[?25h"
+#define ANSI_CURSOR_SAVE "\033[s"
+#define ANSI_CURSOR_RESTORE "\033[u"
+
+#define ANSI_CLEAR_LINE "\033[2K"               
+#define ANSI_CLEAR_LINE_RIGHT "\033[K"          
+#define ANSI_CLEAR_LINE_LEFT "\033[1K"
+#define ANSI_CLEAR_BELOW "\033[0J"
+#define ANSI_CLEAR_ABOVE "\033[1J" 
+
+#endif //__ANSI_EXTENDED_H__
