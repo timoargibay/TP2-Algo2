@@ -352,7 +352,7 @@ size_t tp1_con_cada_pokemon(tp1_t *un_tp, bool (*f)(struct pokemon *, void *),
 	size_t pokemones_trabajados = 0;
 	struct pokemon *tmp_poke = NULL;
 	if (un_tp == NULL || f == NULL || un_tp->pokemons == NULL)
-		return 0;
+		return 1;
 
 	if (extra != NULL &&
 	    strcmp((char *)extra, "ordenar_alfabeticamente") == 0)

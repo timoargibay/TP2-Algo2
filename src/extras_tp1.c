@@ -258,7 +258,6 @@ int ordenar_alfabeticamente(struct pokemon *lista, size_t cantidad)
 				ordenada = false;
 			}
 		}
-		cantidad--;
 	}
 
 	return 0;

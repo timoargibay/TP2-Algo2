@@ -1,4 +1,5 @@
 #include "src/juego.h"
+#include "src/cola.h"
 
 char tolower_propio(char l)
 {
@@ -89,20 +90,20 @@ char fsubmenu_mostrar()
 	menu_agregar_opcion(submenu_mostrar, "I) Mostrar por ID");
 	menu_agregar_opcion(submenu_mostrar, "A) Volver al menu anterior");
 
-	printf(ANSI_ALTERNATIVE_SCREEN);
+	printf(ANSI_ALTERNATIVE_SCREEN ANSI_CURSOR_TOP);
 	for (size_t i = 0; i < menu_cantidad(submenu_mostrar); i++) {
 		char *opcion_actual = menu_get_opcion(submenu_mostrar, i);
 		printf("%s\n", opcion_actual);
 	}
 	char input = tolower_propio((char)getchar());
-	printf(ANSI_NORMAL_SCREEN);
+	printf(ANSI_CURSOR_HOME ANSI_NORMAL_SCREEN);
 	menu_destruir(submenu_mostrar);
 	return input;
 }
 
 char fsubmenu_buscar()
 {
-	menu_t *submenu_buscar = menu_crear("Buscar...", NULL);
+	menu_t *submenu_buscar = menu_crear("Buscar...");
 	if (submenu_buscar == NULL)
 		return 0;
 
@@ -307,34 +308,69 @@ void menues_buscar(lista_t *pokemons)
 	}
 }
 
+bool dummy_true(struct pokemon *un_pokemon, void *un_dato)
+{
+	return true;
+}
+
+//Copa de copia_agrega_pokemon pero usando el tda cola para mejor eficiencia
+bool encola_copia_pokemon(struct pokemon *el_pokemon, void *una_cola)
+{
+	if (una_cola == NULL)
+		return false;
+
+	struct pokemon *pokemon_lista = malloc(sizeof(struct pokemon));
+	if (pokemon_lista == NULL)
+		return false;
+
+	*pokemon_lista = *el_pokemon;
+	pokemon_lista->nombre = copiar_string(el_pokemon->nombre);
+
+	if (pokemon_lista->nombre == NULL) {
+		free(pokemon_lista);
+		return false;
+	}
+
+	return cola_encolar(una_cola, pokemon_lista);
+}
+
 void menues_mostrar_nombre(tp1_t *pokemons_tp)
 {
+	printf(ANSI_NORMAL_SCREEN ANSI_CLEAR_SCREEN);
 	if (pokemons_tp == NULL)
 		return;
 
-	tp1_con_cada_pokemon(pokemons_tp, NULL, "ordenar_alfabeticamente");
-	lista_t *pokemons_por_nombre = lista_crear();
+	cola_t *pokemons_por_nombre = cola_crear();
 	if (pokemons_por_nombre == NULL)
 		return;
 
-	tp1_con_cada_pokemon(pokemons_tp, copia_agrega_pokemon,
+	tp1_con_cada_pokemon(pokemons_tp, dummy_true,
+			     "ordenar_alfabeticamente");
+	tp1_con_cada_pokemon(pokemons_tp, encola_copia_pokemon,
 			     pokemons_por_nombre);
-	if (lista_cantidad(pokemons_por_nombre) != tp1_cantidad(pokemons_tp)) {
+
+	if (cola_cantidad(pokemons_por_nombre) != tp1_cantidad(pokemons_tp)) {
 		printf("\nHubo un problema!\n");
 		tp1_destruir(pokemons_tp);
-	} else {
-		for (size_t i = 0; i < lista_cantidad(pokemons_por_nombre);
-		     i++) {
-			struct pokemon *poke_actual =
-				lista_buscar_elemento(pokemons_por_nombre, i);
-			if (poke_actual != NULL)
-				mostrar_pokemon(poke_actual);
-		}
+		struct pokemon *poke = NULL;
+		while ((poke = cola_desencolar(pokemons_por_nombre)) != NULL)
+			destruir_pokemon_lista(poke);
+
+		cola_destruir(pokemons_por_nombre);
+		return;
 	}
-	lista_destruir_todo(pokemons_por_nombre, destruir_pokemon_lista);
+
+	struct pokemon *poke_actual = NULL;
+
+	while ((poke_actual = cola_desencolar(pokemons_por_nombre)) != NULL) {
+		mostrar_pokemon(poke_actual);
+		destruir_pokemon_lista(poke_actual);
+	}
+
+	cola_destruir(pokemons_por_nombre);
 	printf("Presiona enter para continuar....");
 	getchar();
-	printf("\n");
+	printf(ANSI_CLEAR_SCREEN);
 }
 
 void menues_mostrar_id(lista_t *pokemons)
@@ -354,18 +390,22 @@ void menues_mostrar(tp1_t *pokemons_tp, lista_t *pokemons_lista)
 	if (pokemons_tp == NULL || pokemons_lista == NULL)
 		return;
 
-	char input = fsubmenu_mostrar();
-	getchar();
+	char input;
 	bool salir = false;
 
 	while (salir == false) {
+		input = fsubmenu_mostrar();
+		getchar();
 		switch (input) {
 		case 'n':
 			menues_mostrar_nombre(pokemons_tp);
+			break;
 		case 'i':
 			menues_mostrar_id(pokemons_lista);
+			break;
 		case 'a':
 			salir = true;
+			break;
 		}
 	}
 }

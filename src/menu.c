@@ -80,7 +80,12 @@ void menu_destruir(menu_t *menu)
 	if (menu == NULL)
 		return;
 
-	lista_destruir_todo(menu->opciones, free);
+	//Esto es asi por un error de diseño mio lista_destruir_todo en donde, si la lista posee 0 elementos, finaliza directamente sin liberar la lista como tal
+	if (menu_cantidad(menu) == 0)
+		lista_destruir(menu->opciones);
+	else
+		lista_destruir_todo(menu->opciones, free);
+
 	free(menu->titulo);
 	free(menu);
 }
