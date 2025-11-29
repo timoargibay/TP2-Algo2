@@ -16,6 +16,26 @@
 #define ESPACIO 2
 #define ANCHO_IMAGINARIO 100
 
+typedef struct carta carta_t;
+
+carta_t *crear_carta(struct pokemon *pokemon);
+
+bool elegir_pokemons(lista_t *pokemons, lista_t *pokemons_elegidos,
+		     unsigned int *semilla);
+
+void imprimir_carta_oculta(char salida[CARTA_ALTO][CARTA_ANCHO + 1]);
+
+void imprimir_carta_revelada(const char *texto,
+			     char salida[CARTA_ALTO][CARTA_ANCHO + 1]);
+
+void mostrar_tablero(lista_t *cartas, size_t filas, size_t columnas,
+		     bool revelar);
+
+bool leer_coordenada(const char *input, size_t *fila, size_t *columna);
+
+carta_t *elegir_carta(lista_t *cartas, size_t filas, size_t columnas,
+		      carta_t *eleccion_previa, bool *turno);
+
 int juego(lista_t *pokemons_disponibles, unsigned int semilla);
 
 #endif

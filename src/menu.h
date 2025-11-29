@@ -1,44 +1,21 @@
-#ifndef MENU_H
-#define MENU_H
-#include "ansi.h"
-#include "ansi_extended.h"
+#ifndef MENU_H_
+#define MENU_H_
 #include "lista.h"
 #include <stdlib.h>
-#include <stdbool.h>
-#include <stdio.h>
 #include <string.h>
 
 typedef struct menu menu_t;
 
-char tolower_propio(char l);
+menu_t *menu_crear();
 
-char leer_un_char(FILE *leer_desde);
+char *menu_mostrar_titulo(menu_t *menu);
 
-//Crea menu con un titulo, titulo puede ser NULL
-menu_t *menu_crear(const char *titulo, const char *estilo_titulo);
+bool menu_agregar_opcion(menu_t *menu, const char *texto);
 
-//Agrega las opciones al menu
-bool menu_agregar_opcion(menu_t *menu, const char *texto, char tecla,
-			 char *estilo_opcion);
+char *menu_get_opcion(const menu_t *menu, size_t pos);
 
-//Agrega titulo si no habia, si habia lo cambia, y si titulo es NULL se lo borra
-bool menu_modificar_titulo(menu_t *menu, const char *titulo,
-			   const char *estilo_titulo);
+size_t menu_cantidad(const menu_t *menu);
 
-//Muestra el menu y devuelve la tecla que el usuario oprima
-char menu_mostrar(menu_t *menu, bool alternative_screen);
-
-//Borra una opcion del menu
-bool menu_borrar_opcion(menu_t *menu, char tecla_opcion_a_borrar);
-
-//Modifica el texto de una opcion si la hay
-bool menu_modificar_texto_opcion(menu_t *menu, char tecla_opcion,
-				 const char *nuevo_texto);
-
-//Devuelve la cantidad de opciones que hay en el menu
-size_t menu_cantidad_opciones(menu_t *menu);
-
-//Libera toda la memoria asociada al menu
 void menu_destruir(menu_t *menu);
 
-#endif // MENU_H
+#endif

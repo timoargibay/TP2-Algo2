@@ -1,6 +1,8 @@
 {
         "files.associations": {
                 "*.ejs": "html",
-                "menu.h": "c"
+                "menu.h": "c",
+                "string": "cpp",
+                "cstdlib": "c"
         }
 }

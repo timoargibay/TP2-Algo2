@@ -3,9 +3,6 @@ CFLAGS =-std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -Wtrampoline
 CC = gcc
 
 compilar_todo: src/*.c tp2.c
-	gcc $(CFLAGS) -c src/menu.c -o archivos_objeto/menu.o
-	gcc $(CFLAGS) -c src/extras_tp1.c -o archivos_objeto/extras_tp1.o
-	gcc $(CFLAGS) -c src/tp1.c -o archivos_objeto/tp1.o
 	gcc $(CFLAGS) src/*.c pruebas_alumno.c -o pruebas_alumno
 	gcc $(CFLAGS) src/*.c tp2.c -o tp2
 
@@ -15,6 +12,12 @@ pruebas_menu: src/*.c prueba_menu.c
 
 pruebas_alumno: src/*.c pruebas_alumno.c
 	$(CC) $(CFLAGS) src/*.c pruebas_alumno.c -o pruebas_alumno
+
+jugar: compilar_todo
+	./tp2
+
+valgrind_juego: compilar_todo
+	valgrind $(VALGRIND_FLAGS) ./tp2 2>VALGRIND_LOG.txt
 
 valgrind-pruebas: compilar_todo
 	valgrind $(VALGRIND_FLAGS) ./pruebas_alumno

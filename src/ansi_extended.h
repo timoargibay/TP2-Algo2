@@ -11,10 +11,10 @@
 #define ANSI_CURSOR_SAVE "\033[s"
 #define ANSI_CURSOR_RESTORE "\033[u"
 
-#define ANSI_CLEAR_LINE "\033[2K"               
-#define ANSI_CLEAR_LINE_RIGHT "\033[K"          
+#define ANSI_CLEAR_LINE "\033[2K"
+#define ANSI_CLEAR_LINE_RIGHT "\033[K"
 #define ANSI_CLEAR_LINE_LEFT "\033[1K"
 #define ANSI_CLEAR_BELOW "\033[0J"
-#define ANSI_CLEAR_ABOVE "\033[1J" 
+#define ANSI_CLEAR_ABOVE "\033[1J"
 
 #endif //__ANSI_EXTENDED_H__
