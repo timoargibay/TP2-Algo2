@@ -50,8 +50,7 @@ void mezclar_fisher_yates(size_t *posiciones_elegidas, size_t cantidad)
 }
 
 //Devuelve una lista con las cartas aleatoriamente
-bool elegir_pokemons(lista_t *pokemons, lista_t *pokemons_elegidos,
-		     unsigned int *semilla)
+bool elegir_pokemons(lista_t *pokemons, lista_t *pokemons_elegidos)
 {
 	if (pokemons == NULL || pokemons_elegidos == NULL ||
 	    lista_cantidad(pokemons) <= 1)
@@ -66,11 +65,6 @@ bool elegir_pokemons(lista_t *pokemons, lista_t *pokemons_elegidos,
 
 	size_t i;
 	struct pokemon *tmp = NULL;
-
-	if (semilla == NULL || *semilla == 0)
-		srand((unsigned int)time(NULL));
-	else
-		srand(*semilla);
 
 	size_t *posiciones_elegidas =
 		malloc(sizeof(size_t) * cantidad_a_elegir);
@@ -119,7 +113,7 @@ void mostrar_tablero(lista_t *cartas, size_t filas, size_t columnas,
 	size_t padding = 5;
 	char diseño[CARTA_ALTO][CARTA_ANCHO + 1];
 
-	printf(ANSI_RESET_SCREEN "     ");
+	printf(ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP "     ");
 	for (size_t col = 1; col <= columnas; col++)
 		printf("    %zu      ", col);
 	printf("\n");
@@ -257,6 +251,8 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla)
 	carta_t *carta_actual = NULL;
 	size_t i;
 	size_t cartas_eliminadas = 0;
+	unsigned int semilla_actual = (semilla != 0) ? semilla :
+						       (unsigned int)time(NULL);
 
 	if (pokemons_elegidos == NULL || cartas == NULL ||
 	    cartas_mezcladas == NULL) {
@@ -266,8 +262,7 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla)
 		return 1;
 	}
 
-	if (elegir_pokemons(pokemons_disponibles, pokemons_elegidos,
-			    &semilla) == false) {
+	if (elegir_pokemons(pokemons_disponibles, pokemons_elegidos) == false) {
 		lista_destruir(pokemons_elegidos);
 		lista_destruir(cartas);
 		lista_destruir(cartas_mezcladas);
@@ -312,10 +307,13 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla)
 	char *basura = NULL;
 	carta_t *carta1 = NULL;
 	carta_t *carta2 = NULL;
-	printf(ANSI_CLEAR_SCREEN ANSI_ALTERNATIVE_SCREEN);
+	printf(ANSI_ALTERNATIVE_SCREEN);
 
 	mostrar_tablero(cartas_mezcladas, CANT_FILAS, CANT_COLUMNAS, true);
-	printf("\nMemorizenlas!!\nPresione ENTER para continuar...");
+	printf("\nMemorizenlas!!\n"
+	       "Semilla actual: %i\n"
+	       "Presione ENTER para continuar...\n",
+	       semilla_actual);
 	basura = leer_linea_archivo(stdin);
 	free(basura);
 
@@ -343,14 +341,13 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla)
 			else
 				j1_puntaje++;
 		} else {
-			printf("\n" ANSI_COLOR_RED "Incorrecto :(\n");
-			printf("Las cartas no coinciden.\n" ANSI_COLOR_RESET);
+			printf("\n" ANSI_COLOR_RED "Incorrecto :(\n"
+			       "Las cartas no coinciden.\n" ANSI_COLOR_RESET);
 			carta1->revelada = carta2->revelada = false;
 		}
 		printf("\nPresione ENTER para continuar...");
 		basura = leer_linea_archivo(stdin);
 		free(basura);
-		printf(ANSI_CLEAR_SCREEN);
 		turno = (turno) ? false : true;
 	}
 	char *ganador = (j1_puntaje > j2_puntaje) ? jugador1 : jugador2;
@@ -359,14 +356,17 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla)
 							      &j2_puntaje;
 	size_t *puntaje_perdedor = (j2_puntaje > j1_puntaje) ? &j1_puntaje :
 							       &j2_puntaje;
-	printf(ANSI_CURSOR_TOP
+	printf(ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP
 	       "Terminaron! Felicitaciones :) \n*escena de evangelion de todos aplaudiendo*\n");
 	printf("Resultados: \n" ANSI_COLOR_GREEN
 	       "Gano: %s con un puntaje de %ld\n" ANSI_COLOR_RED
-	       "Perdio: %s con un puntaje de %ld\n" ANSI_COLOR_RESET,
-	       ganador, *puntaje_ganador, perdedor, *puntaje_perdedor);
+	       "Perdio: %s con un puntaje de %ld\n" ANSI_COLOR_RESET
+	       "Jugaste en la semilla:" ANSI_BG_GREEN ANSI_COLOR_BOLD
+	       "%i" ANSI_BG_RESET ANSI_COLOR_RESET,
+	       ganador, *puntaje_ganador, perdedor, *puntaje_perdedor,
+	       semilla_actual);
 	getchar();
-	printf(ANSI_RESET_SCREEN ANSI_NORMAL_SCREEN);
+	printf(ANSI_NORMAL_SCREEN);
 	lista_destruir(pokemons_elegidos);
 	lista_destruir(cartas_mezcladas);
 	lista_destruir_todo(cartas, free);

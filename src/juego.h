@@ -16,12 +16,14 @@
 #define ESPACIO 2
 #define ANCHO_IMAGINARIO 100
 
+//Nota del editor: En casos de uso real, estimo que todas estas funciones, a excepcion de juego() serian static y no declaradas aca
+//Pero para facilitar las pruebas de estabilidad y casos borde, es necesario
+
 typedef struct carta carta_t;
 
 carta_t *crear_carta(struct pokemon *pokemon);
 
-bool elegir_pokemons(lista_t *pokemons, lista_t *pokemons_elegidos,
-		     unsigned int *semilla);
+bool elegir_pokemons(lista_t *pokemons, lista_t *pokemons_elegidos);
 
 void imprimir_carta_oculta(char salida[CARTA_ALTO][CARTA_ANCHO + 1]);
 

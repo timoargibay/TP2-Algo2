@@ -24,8 +24,7 @@ void prueba_leer_coordenadas_null()
 
 void prueba_elegir_pokemons_null()
 {
-	unsigned int semilla = 8808;
-	pa2m_afirmar(elegir_pokemons(NULL, NULL, &semilla) == false,
+	pa2m_afirmar(elegir_pokemons(NULL, NULL) == false,
 		     "Si no se envian pokemons, no se mezcla nada");
 }
 
@@ -56,9 +55,8 @@ void prueba_elegir_pokemons_lista_vacia()
 {
 	lista_t *pokemons = lista_crear();
 	lista_t *elegidos = lista_crear();
-	unsigned int semilla = 1234;
 
-	pa2m_afirmar(elegir_pokemons(pokemons, elegidos, &semilla) == false,
+	pa2m_afirmar(elegir_pokemons(pokemons, elegidos) == false,
 		     "No se pueden elegir pokemons de una lista vacía.");
 
 	lista_destruir(pokemons);
@@ -70,7 +68,7 @@ void prueba_elegir_pokemons_sin_semilla()
 	lista_t *pokemons = lista_crear();
 	lista_t *elegidos = lista_crear();
 
-	pa2m_afirmar(elegir_pokemons(pokemons, elegidos, NULL) == false,
+	pa2m_afirmar(elegir_pokemons(pokemons, elegidos) == false,
 		     "Si no se envía semilla, falla la selección.");
 
 	lista_destruir(pokemons);

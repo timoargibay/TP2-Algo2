@@ -1,6 +1,19 @@
 #include "src/juego.h"
 #include "src/cola.h"
 
+/////////////////////////////////////////////////////////////
+////////					     ////////
+////////	Funciones de utilidad interna        ////////
+////////					     ////////
+/////////////////////////////////////////////////////////////
+
+void limpiar_buffer_stdin()
+{
+	int input = 8;
+	while ((input = getchar()) != '\n' && input != 0)
+		;
+}
+
 char tolower_propio(char l)
 {
 	if (l >= 'A' && l <= 'Z')
@@ -57,6 +70,7 @@ bool mostrar_pokemon(struct pokemon *pokemon_seleccionado)
 	return true;
 }
 
+//Hace una copia real en el heap de el string provisto, hay que liberarlo con free al finalizar
 char *copiar_string(char *string)
 {
 	if (string == NULL)
@@ -70,7 +84,7 @@ char *copiar_string(char *string)
 	return copia;
 }
 
-void destruir_pokemon_lista(void *pokemon)
+void destruir_pokemon(void *pokemon)
 {
 	if (pokemon == NULL)
 		return;
@@ -80,79 +94,8 @@ void destruir_pokemon_lista(void *pokemon)
 	free(pokemon_a_liberar);
 }
 
-char fsubmenu_mostrar()
-{
-	menu_t *submenu_mostrar = menu_crear("Mostrar...");
-	if (submenu_mostrar == NULL)
-		return 0;
-
-	menu_agregar_opcion(submenu_mostrar, "N) Mostrar por nombre");
-	menu_agregar_opcion(submenu_mostrar, "I) Mostrar por ID");
-	menu_agregar_opcion(submenu_mostrar, "A) Volver al menu anterior");
-
-	printf(ANSI_ALTERNATIVE_SCREEN ANSI_CURSOR_TOP);
-	for (size_t i = 0; i < menu_cantidad(submenu_mostrar); i++) {
-		char *opcion_actual = menu_get_opcion(submenu_mostrar, i);
-		printf("%s\n", opcion_actual);
-	}
-	char input = tolower_propio((char)getchar());
-	printf(ANSI_CURSOR_HOME ANSI_NORMAL_SCREEN);
-	menu_destruir(submenu_mostrar);
-	return input;
-}
-
-char fsubmenu_buscar()
-{
-	menu_t *submenu_buscar = menu_crear("Buscar...");
-	if (submenu_buscar == NULL)
-		return 0;
-
-	menu_agregar_opcion(submenu_buscar, "N) Buscar por nombre");
-	menu_agregar_opcion(submenu_buscar, "I) Buscar por ID");
-	menu_agregar_opcion(submenu_buscar, "A) Volver al menu anterior");
-
-	printf(ANSI_ALTERNATIVE_SCREEN ANSI_RESET_SCREEN ANSI_CURSOR_TOP);
-	for (size_t i = 0; i < menu_cantidad(submenu_buscar); i++) {
-		char *opcion_actual = menu_get_opcion(submenu_buscar, i);
-		printf("%s\n", opcion_actual);
-	}
-	char input = tolower_propio((char)getchar());
-	printf(ANSI_CURSOR_HOME ANSI_NORMAL_SCREEN);
-	menu_destruir(submenu_buscar);
-	return input;
-}
-
-char fmenu_principal()
-{
-	menu_t *menu_principal =
-		menu_crear(ANSI_COLOR_RED ANSI_BG_YELLOW
-			   "======Pokedex trivia (TP2)======" ANSI_COLOR_RESET
-				   ANSI_BG_RESET);
-	menu_agregar_opcion(menu_principal, "J) Jugar");
-	menu_agregar_opcion(menu_principal, "S) Jugar con semilla");
-	menu_agregar_opcion(menu_principal, "C) Cargar Archivo");
-	menu_agregar_opcion(menu_principal, "B) Buscar Pokemon...");
-	menu_agregar_opcion(menu_principal, "M) Mostrar Pokemon...");
-	menu_agregar_opcion(menu_principal, "Q) Salir");
-
-	char *titulo = menu_mostrar_titulo(menu_principal);
-	printf(ANSI_ALTERNATIVE_SCREEN ANSI_RESET_SCREEN ANSI_CURSOR_TOP);
-	printf("%s\n", titulo);
-	for (size_t i = 0; i < menu_cantidad(menu_principal); i++) {
-		char *opcion_actual = menu_get_opcion(menu_principal, i);
-		printf("%s\n", opcion_actual);
-	}
-	char input = tolower_propio((char)getchar());
-	printf(ANSI_CURSOR_HOME ANSI_NORMAL_SCREEN);
-	menu_destruir(menu_principal);
-	return input;
-}
-
-/**Originalmente esta funcion solo era una linea (su return) pero por errores con valgrind
-  *decidi hacer una copia real de cada pokemon en vez de solamente poner un puntero al pokemon original
-  *en los nodos, asi tp1_destruir y los destructores de tp_lista hacen su trabajo por separado bien.
-  *Tambien es la razon por la que incorporé una funcion que copie un string
-*/
+//Hace una copia real completa de un pokemon provisto y lo guarda en el TDA lista provisto
+//Pensada para iteradores internos
 bool copia_agrega_pokemon(struct pokemon *el_pokemon, void *una_lista)
 {
 	struct pokemon *pokemon_lista = malloc(sizeof(struct pokemon));
@@ -168,6 +111,33 @@ bool copia_agrega_pokemon(struct pokemon *el_pokemon, void *una_lista)
 	}
 
 	return lista_agregar(una_lista, pokemon_lista);
+}
+
+//TP1_con_cada_pokemon requiere esto para funcionar
+bool dummy_true(struct pokemon *un_pokemon, void *un_dato)
+{
+	return true;
+}
+
+//Copa de copia_agrega_pokemon pero usando el tda cola para mejor eficiencia
+bool encola_copia_pokemon(struct pokemon *el_pokemon, void *una_cola)
+{
+	if (una_cola == NULL)
+		return false;
+
+	struct pokemon *pokemon_lista = malloc(sizeof(struct pokemon));
+	if (pokemon_lista == NULL)
+		return false;
+
+	*pokemon_lista = *el_pokemon;
+	pokemon_lista->nombre = copiar_string(el_pokemon->nombre);
+
+	if (pokemon_lista->nombre == NULL) {
+		free(pokemon_lista);
+		return false;
+	}
+
+	return cola_encolar(una_cola, pokemon_lista);
 }
 
 lista_t *array_a_lista(tp1_t *array_pokemons)
@@ -189,27 +159,29 @@ lista_t *array_a_lista(tp1_t *array_pokemons)
 	return nueva_lista;
 }
 
-void llamar_juego_con_semilla(lista_t *pokemons)
+unsigned int llamar_juego_con_semilla()
 {
 	int semilla = -1;
 	bool ingreso_correcto = false;
 	while (ingreso_correcto == false && semilla < 0) {
-		printf(ANSI_RESET_SCREEN
+		printf(ANSI_ALTERNATIVE_SCREEN ANSI_CURSOR_TOP
 		       "\nIngrese la semilla (debe ser mayor a 0): ");
 		char *inputs_varios = leer_linea_archivo(stdin);
 		printf("\n");
 		semilla = strtnum(inputs_varios);
 		free(inputs_varios);
 	}
-	juego(pokemons, (unsigned int)semilla);
+
+	return (unsigned int)semilla;
 }
 
-void jugar_archivo_propio()
+void jugar_archivo_propio(unsigned int semilla)
 {
 	char input = 0;
 	tp1_t *carga_manual = NULL;
 	while (carga_manual == NULL && input != 'n') {
-		printf(ANSI_RESET_SCREEN "Ingrese la ruta del archivo: ");
+		printf(ANSI_ALTERNATIVE_SCREEN ANSI_CURSOR_TOP
+		       "Ingrese la ruta del archivo: ");
 		char *inputs_varios = leer_linea_archivo(stdin);
 		printf("\n");
 		carga_manual = tp1_leer_archivo(inputs_varios);
@@ -223,9 +195,57 @@ void jugar_archivo_propio()
 	lista_t *pokemons_archivo = lista_crear();
 	tp1_con_cada_pokemon(carga_manual, copia_agrega_pokemon,
 			     pokemons_archivo);
-	juego(pokemons_archivo, 0);
+	juego(pokemons_archivo, semilla);
 	tp1_destruir(carga_manual);
-	lista_destruir_todo(pokemons_archivo, destruir_pokemon_lista);
+	lista_destruir_todo(pokemons_archivo, destruir_pokemon);
+}
+
+void fcomo_se_juega()
+{
+	printf(ANSI_ALTERNATIVE_SCREEN ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP);
+	printf(ANSI_BG_MAGENTA ANSI_COLOR_BOLD ANSI_COLOR_YELLOW
+	       "===¿Como se juega?===\n" ANSI_BG_RESET);
+
+	printf(ANSI_COLOR_GREEN
+	       "\nEs simple!\n\nSe trata de un juego al estilo memotest, es muy posible q lo hayas jugado en tu infancia.\n"
+	       "Para arrancar, se juega de a dos, pero si sos vos solo no decimos nada ;)\n"
+	       "Se muestra un tablero con una cantidad par de pokemons, vos tenes q memorizar lo que se muestra lo mejor posible ya que luego las cartas\n"
+	       "se dan vuelta y no las podes volver a mirar (al menos, no todas al mismo tiempo),\ndependeras de memorizar las jugadas tuyas y de tu oponente para"
+	       "saber donde estan las parejas.\nPara elegir cada carta, se muestran coordenadas como en un mapa,\ndonde cada direccion se corresponde a cada carta.\n\n"
+	       "En este juego, las letras se corresponden a cada fila y los numeros a cada columna, entonces si elegis la carta B3, estarias eligiendo la carta de la\n"
+	       "segunda fila y tercer columna, que, en caso de ya estar revelada O eliminada, el juego te pedira que elijas de vuelta una que este disponible.\n\n"
+	       "Esto se repite, de a 1 turno por jugador, hasta q no queden mas cartas, al finalizar, se mostraran los puntajes,\nsiendo el jugador con mas puntos el ganador.\n\n"
+	       "Opcionalmente, si te gusto el orden de las cartas (¿?) podes ver la semilla usada e ingresarla manualmente para jugar la misma partida de vuelta\n" ANSI_COLOR_RESET);
+
+	printf("\n\n\n\n\nPresiona Enter para continuar...");
+	getchar();
+}
+
+////////////////////////////////////////////////////////
+////////					////////
+////////	Funciones de menues buscar	////////
+////////					////////
+////////////////////////////////////////////////////////
+
+char fsubmenu_buscar()
+{
+	menu_t *submenu_buscar = menu_crear("Buscar...");
+	if (submenu_buscar == NULL)
+		return 0;
+
+	menu_agregar_opcion(submenu_buscar, "N) Buscar por nombre");
+	menu_agregar_opcion(submenu_buscar, "I) Buscar por ID");
+	menu_agregar_opcion(submenu_buscar, "A) Volver al menu anterior");
+
+	printf(ANSI_ALTERNATIVE_SCREEN ANSI_RESET_SCREEN ANSI_CURSOR_TOP);
+	for (size_t i = 0; i < menu_cantidad(submenu_buscar); i++) {
+		char *opcion_actual = menu_get_opcion(submenu_buscar, i);
+		printf("%s\n", opcion_actual);
+	}
+	char input = tolower_propio((char)getchar());
+	printf(ANSI_CURSOR_HOME ANSI_NORMAL_SCREEN);
+	menu_destruir(submenu_buscar);
+	return input;
 }
 
 void buscar_por_nombre(lista_t *pokemons)
@@ -308,30 +328,30 @@ void menues_buscar(lista_t *pokemons)
 	}
 }
 
-bool dummy_true(struct pokemon *un_pokemon, void *un_dato)
+////////////////////////////////////////////////////////
+////////					////////
+////////	Funciones de mostrar menu	////////
+////////					////////
+////////////////////////////////////////////////////////
+char fsubmenu_mostrar()
 {
-	return true;
-}
+	menu_t *submenu_mostrar = menu_crear("Mostrar...");
+	if (submenu_mostrar == NULL)
+		return 0;
 
-//Copa de copia_agrega_pokemon pero usando el tda cola para mejor eficiencia
-bool encola_copia_pokemon(struct pokemon *el_pokemon, void *una_cola)
-{
-	if (una_cola == NULL)
-		return false;
+	menu_agregar_opcion(submenu_mostrar, "N) Mostrar por nombre");
+	menu_agregar_opcion(submenu_mostrar, "I) Mostrar por ID");
+	menu_agregar_opcion(submenu_mostrar, "A) Volver al menu anterior");
 
-	struct pokemon *pokemon_lista = malloc(sizeof(struct pokemon));
-	if (pokemon_lista == NULL)
-		return false;
-
-	*pokemon_lista = *el_pokemon;
-	pokemon_lista->nombre = copiar_string(el_pokemon->nombre);
-
-	if (pokemon_lista->nombre == NULL) {
-		free(pokemon_lista);
-		return false;
+	printf(ANSI_ALTERNATIVE_SCREEN ANSI_CURSOR_TOP);
+	for (size_t i = 0; i < menu_cantidad(submenu_mostrar); i++) {
+		char *opcion_actual = menu_get_opcion(submenu_mostrar, i);
+		printf("%s\n", opcion_actual);
 	}
-
-	return cola_encolar(una_cola, pokemon_lista);
+	char input = tolower_propio((char)getchar());
+	printf(ANSI_CURSOR_HOME ANSI_NORMAL_SCREEN);
+	menu_destruir(submenu_mostrar);
+	return input;
 }
 
 void menues_mostrar_nombre(tp1_t *pokemons_tp)
@@ -354,7 +374,7 @@ void menues_mostrar_nombre(tp1_t *pokemons_tp)
 		tp1_destruir(pokemons_tp);
 		struct pokemon *poke = NULL;
 		while ((poke = cola_desencolar(pokemons_por_nombre)) != NULL)
-			destruir_pokemon_lista(poke);
+			destruir_pokemon(poke);
 
 		cola_destruir(pokemons_por_nombre);
 		return;
@@ -364,7 +384,7 @@ void menues_mostrar_nombre(tp1_t *pokemons_tp)
 
 	while ((poke_actual = cola_desencolar(pokemons_por_nombre)) != NULL) {
 		mostrar_pokemon(poke_actual);
-		destruir_pokemon_lista(poke_actual);
+		destruir_pokemon(poke_actual);
 	}
 
 	cola_destruir(pokemons_por_nombre);
@@ -410,6 +430,47 @@ void menues_mostrar(tp1_t *pokemons_tp, lista_t *pokemons_lista)
 	}
 }
 
+/////////////////////////////////////////////
+
+char fmenu_principal(unsigned int semilla)
+{
+	menu_t *menu_principal =
+		menu_crear(ANSI_COLOR_RED ANSI_BG_YELLOW
+			   "======Pokedex trivia (TP2)======" ANSI_COLOR_RESET
+				   ANSI_BG_RESET);
+	menu_agregar_opcion(menu_principal, "J) Jugar");
+	menu_agregar_opcion(menu_principal, "S) Jugar con semilla");
+	menu_agregar_opcion(menu_principal, "C) Cargar Archivo");
+	menu_agregar_opcion(menu_principal, "B) Buscar Pokemon...");
+	menu_agregar_opcion(menu_principal, "M) Mostrar Pokemon...");
+	//Nuevas opciones
+	menu_agregar_opcion(menu_principal, "E) Cambiar estilos");
+	menu_agregar_opcion(menu_principal, "H) ¿Como se juega?");
+	menu_agregar_opcion(menu_principal, "A) Ajustes de juego");
+	//Fin nuevas opciones
+	menu_agregar_opcion(menu_principal, "Q) Salir");
+
+	char *titulo = menu_mostrar_titulo(menu_principal);
+	printf(ANSI_ALTERNATIVE_SCREEN ANSI_CURSOR_TOP);
+	printf("%s\n", titulo);
+	for (size_t i = 0; i < menu_cantidad(menu_principal); i++) {
+		char *opcion_actual = menu_get_opcion(menu_principal, i);
+		printf("%s\n", opcion_actual);
+	}
+	printf("\nUsando semilla: " ANSI_COLOR_BOLD ANSI_COLOR_GREEN
+	       "%i" ANSI_BG_RESET ANSI_COLOR_RESET "\n",
+	       semilla);
+	char input = tolower_propio((char)getchar());
+	printf(ANSI_CURSOR_HOME ANSI_NORMAL_SCREEN);
+	menu_destruir(menu_principal);
+	return input;
+}
+
+////////////////////////////////////
+////////		    ////////
+////////	Main	    ////////
+////////		    ////////
+////////////////////////////////////
 int main(int argc, char *argumento[])
 {
 	tp1_t *pokemons_1 = NULL;
@@ -429,26 +490,35 @@ int main(int argc, char *argumento[])
 
 	bool terminar = false;
 	char input;
+	unsigned int semilla = (unsigned int)time(NULL);
 
 	while (terminar == false) {
-		input = fmenu_principal();
+		input = fmenu_principal(semilla);
 		getchar();
 		switch (input) {
 		case 'j':
-			juego(pokemons_lista, 0);
-			printf(ANSI_RESET_SCREEN);
-			continue;
+			juego(pokemons_lista, semilla);
+			break;
 		case 's':
-			llamar_juego_con_semilla(pokemons_lista);
+			semilla = llamar_juego_con_semilla();
 			break;
 		case 'c':
-			jugar_archivo_propio();
-			continue;
+			jugar_archivo_propio(semilla);
+			break;
 		case 'b':
 			menues_buscar(pokemons_lista);
 			break;
 		case 'm':
 			menues_mostrar(pokemons_1, pokemons_lista);
+			break;
+		case 'e':
+			//cambiar colores
+			break;
+		case 'h':
+			fcomo_se_juega();
+			break;
+		case 'a':
+			//cambiar cols y fils
 			break;
 		case 'q':
 			terminar = true;
@@ -457,6 +527,6 @@ int main(int argc, char *argumento[])
 	}
 
 	tp1_destruir(pokemons_1);
-	lista_destruir_todo(pokemons_lista, destruir_pokemon_lista);
+	lista_destruir_todo(pokemons_lista, destruir_pokemon);
 	return 0;
 }
