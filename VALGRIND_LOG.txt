@@ -1,14 +1,14 @@
-==28876== Memcheck, a memory error detector
-==28876== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
-==28876== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
-==28876== Command: ./tp2
-==28876== 
-==28876== 
-==28876== HEAP SUMMARY:
-==28876==     in use at exit: 0 bytes in 0 blocks
-==28876==   total heap usage: 1,369 allocs, 1,369 frees, 29,219 bytes allocated
-==28876== 
-==28876== All heap blocks were freed -- no leaks are possible
-==28876== 
-==28876== For lists of detected and suppressed errors, rerun with: -s
-==28876== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==33672== Memcheck, a memory error detector
+==33672== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==33672== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==33672== Command: ./tp2
+==33672== 
+==33672== 
+==33672== HEAP SUMMARY:
+==33672==     in use at exit: 0 bytes in 0 blocks
+==33672==   total heap usage: 1,384 allocs, 1,384 frees, 29,498 bytes allocated
+==33672== 
+==33672== All heap blocks were freed -- no leaks are possible
+==33672== 
+==33672== For lists of detected and suppressed errors, rerun with: -s
+==33672== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

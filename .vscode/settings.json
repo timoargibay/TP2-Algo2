@@ -3,6 +3,8 @@
                 "*.ejs": "html",
                 "menu.h": "c",
                 "string": "cpp",
-                "cstdlib": "c"
+                "cstdlib": "c",
+                "ansi_extended.h": "c",
+                "tp1.h": "c"
         }
 }

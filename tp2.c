@@ -175,7 +175,7 @@ unsigned int llamar_juego_con_semilla()
 	return (unsigned int)semilla;
 }
 
-void jugar_archivo_propio(unsigned int semilla)
+void jugar_archivo_propio(unsigned int semilla, unsigned short filas, unsigned short columnas)
 {
 	char input = 0;
 	tp1_t *carga_manual = NULL;
@@ -195,7 +195,7 @@ void jugar_archivo_propio(unsigned int semilla)
 	lista_t *pokemons_archivo = lista_crear();
 	tp1_con_cada_pokemon(carga_manual, copia_agrega_pokemon,
 			     pokemons_archivo);
-	juego(pokemons_archivo, semilla);
+	juego(pokemons_archivo, semilla, filas, columnas);
 	tp1_destruir(carga_manual);
 	lista_destruir_todo(pokemons_archivo, destruir_pokemon);
 }
@@ -219,6 +219,78 @@ void fcomo_se_juega()
 
 	printf("\n\n\n\n\nPresiona Enter para continuar...");
 	getchar();
+}
+
+void configurar_dimensiones_juego(unsigned short *filas, unsigned short *columnas)
+{
+	if(filas == NULL || columnas == NULL)
+		return;
+
+	menu_t *config = menu_crear(ANSI_COLOR_BOLD ANSI_BG_RED "Configuracion" ANSI_BG_RESET ANSI_COLOR_RESET);
+	if(config == NULL)
+		return;
+
+	size_t i;
+	bool salir = false;
+	menu_agregar_opcion(config, "F) Cambiar cantidad de filas");
+	menu_agregar_opcion(config, "C) Cambiar cantidad columnas");
+	menu_agregar_opcion(config, "A) Ir a menu anterior");
+	char input = 0;
+	short valor_nuevo_preprocesado;
+	char *input_crudo = NULL;
+
+	while(salir == false) {
+		printf(ANSI_ALTERNATIVE_SCREEN ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP);
+
+		printf("%s\n", menu_mostrar_titulo(config));
+		for(i = 0; i < menu_cantidad(config); i++) 
+			printf("%s\n", menu_get_opcion(config, i));
+
+		printf("\nCantidad actual de filas: %i\nCantidad actual de columnas: %i\n", *filas, *columnas);
+		input = tolower_propio((char)getchar());
+		getchar();
+
+		switch (input) {
+		case 'f':
+			valor_nuevo_preprocesado = 0;
+			while(valor_nuevo_preprocesado < 2 || valor_nuevo_preprocesado > 9) {
+				printf(ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP"Ingrese la cantidad de filas: ");
+				input_crudo = leer_linea_archivo(stdin);
+				valor_nuevo_preprocesado = (short int)strtnum(input_crudo);
+				free(input_crudo);
+
+
+				if(valor_nuevo_preprocesado < 2 || valor_nuevo_preprocesado > 9) {
+					printf("ERROR: Valor debe ser mayor a 2 y menor a 10.");
+					getchar();
+				} else {
+					*filas = (unsigned short)valor_nuevo_preprocesado;
+				}
+			}
+			break;
+		case 'c':
+			valor_nuevo_preprocesado = 0;
+			while(valor_nuevo_preprocesado < 2 || valor_nuevo_preprocesado > 9) {
+				printf(ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP"Ingrese la cantidad de filas: ");
+				input_crudo = leer_linea_archivo(stdin);
+				valor_nuevo_preprocesado = (short int)strtnum(input_crudo);
+				free(input_crudo);
+				if(valor_nuevo_preprocesado < 2 || valor_nuevo_preprocesado > 9) {
+					printf("ERROR: Valor debe ser mayor a 2 y menor a 9.");
+					getchar();
+				} else {
+					*columnas = (unsigned short)valor_nuevo_preprocesado;
+				}
+			}
+			break;
+		case 'a':
+			salir = true;
+			break;
+		}
+
+		
+	}
+	menu_destruir(config);
 }
 
 ////////////////////////////////////////////////////////
@@ -491,19 +563,21 @@ int main(int argc, char *argumento[])
 	bool terminar = false;
 	char input;
 	unsigned int semilla = (unsigned int)time(NULL);
+	unsigned short cantidad_columnas = 6;
+	unsigned short cantidad_filas  = 3;
 
 	while (terminar == false) {
 		input = fmenu_principal(semilla);
 		getchar();
 		switch (input) {
 		case 'j':
-			juego(pokemons_lista, semilla);
+			juego(pokemons_lista, semilla, cantidad_filas, cantidad_columnas);
 			break;
 		case 's':
 			semilla = llamar_juego_con_semilla();
 			break;
 		case 'c':
-			jugar_archivo_propio(semilla);
+			jugar_archivo_propio(semilla, cantidad_filas, cantidad_columnas);
 			break;
 		case 'b':
 			menues_buscar(pokemons_lista);
@@ -518,7 +592,7 @@ int main(int argc, char *argumento[])
 			fcomo_se_juega();
 			break;
 		case 'a':
-			//cambiar cols y fils
+			configurar_dimensiones_juego(&cantidad_filas, &cantidad_columnas);
 			break;
 		case 'q':
 			terminar = true;

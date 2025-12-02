@@ -3,7 +3,7 @@
 
 void prueba_juego_null()
 {
-	pa2m_afirmar(juego(NULL, 0) == 1,
+	pa2m_afirmar(juego(NULL, 0, 0, 0) == 1,
 		     "Si no se envian pokemons a juego, falla");
 }
 
@@ -38,14 +38,14 @@ void pruebas_crear_carta_null()
 
 void prueba_juego_sin_semilla()
 {
-	pa2m_afirmar(juego(NULL, (unsigned int)0) == 1,
+	pa2m_afirmar(juego(NULL, 0, 0, 0) == 1,
 		     "Si la semilla es 0 y no hay pokemons, igualmente falla.");
 }
 
 void prueba_juego_lista_vacia()
 {
 	lista_t *pokemons = lista_crear();
-	pa2m_afirmar(juego(pokemons, 0) == 1,
+	pa2m_afirmar(juego(pokemons, 0, 0, 0) == 1,
 		     "Si la lista de pokemons está vacía, el juego falla.");
 
 	lista_destruir(pokemons);
