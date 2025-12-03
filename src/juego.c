@@ -49,6 +49,43 @@ void mezclar_fisher_yates(size_t *posiciones_elegidas, size_t cantidad)
 	}
 }
 
+bool actualizar_jugadas(char *jugadas[5], size_t *jugada_numero,
+			unsigned int fila_cart0, unsigned int col_cart0,
+			unsigned int fila_cart1, unsigned int col_cart1,
+			bool acierto)
+{
+	if(jugadas == NULL || jugada_numero == NULL)
+		return false;
+
+	char char_fila_carta0 = 'A' + (char)fila_cart0;
+	char char_fila_carta1 = 'A' + (char)fila_cart1;
+	size_t tamaño_buffer = sizeof(char) *50;
+	char *nueva_jugada = malloc(tamaño_buffer);
+	if(nueva_jugada == NULL)
+		return false;
+
+	char de_si_acerto = (acierto) ? 'V' : 'X'; //Por limitaciones de char, imagine a la V como ✓ 
+	if(acierto) {
+		snprintf(nueva_jugada, tamaño_buffer, "Jugada [%ld]: Cartas %c%i - %c%i" ANSI_COLOR_BOLD ANSI_COLOR_GREEN " %c" ANSI_COLOR_RESET,
+			*jugada_numero, char_fila_carta0, col_cart0+1, char_fila_carta1, col_cart1+1, de_si_acerto);
+	} else {
+		snprintf(nueva_jugada, tamaño_buffer, "Jugada [%ld]: Cartas %c%i - %c%i" ANSI_COLOR_BOLD ANSI_COLOR_RED " %c" ANSI_COLOR_RESET,
+			*jugada_numero, char_fila_carta0, col_cart0+1, char_fila_carta1, col_cart1+1, de_si_acerto);
+	}
+
+	if(jugadas[4] != NULL)
+		free(jugadas[4]);
+
+	for(int i = 4; i > 0; i--) {
+		jugadas[i] = jugadas[i-1];
+	}
+
+	jugadas[0] = nueva_jugada;
+	(*jugada_numero)++;
+
+	return true;
+}
+
 //Devuelve una lista con las cartas aleatoriamente
 bool elegir_pokemons(lista_t *pokemons, lista_t *pokemons_elegidos, unsigned short cant_filas, unsigned short cant_columnas)
 {
@@ -106,7 +143,7 @@ void imprimir_carta_revelada(const char *texto,
 }
 
 void mostrar_tablero(lista_t *cartas, size_t filas, size_t columnas,
-		     bool revelar)
+		     bool revelar, char *ultimas[])
 {
 	if (cartas == NULL)
 		return;
@@ -150,13 +187,20 @@ void mostrar_tablero(lista_t *cartas, size_t filas, size_t columnas,
 				if (k != columnas - 1)
 					printf("%*s", ESPACIO, "");
 			}
-
 			printf("\n");
 		}
 	}
+
+	if(ultimas == NULL)
+		return;
+
+	for(i = 0; i < 5; i++) {
+		if(ultimas[i] != NULL)
+			printf("%s\n", ultimas[i]);
+	}
 }
 
-bool leer_coordenada(const char *input, size_t *fila, size_t *columna, unsigned short cant_filas, unsigned short cant_columnas)
+bool leer_coordenada(const char *input, unsigned int *fila, unsigned int *columna, unsigned int cant_filas, unsigned int cant_columnas)
 {
 	if (!input || !fila || !columna)
 		return false;
@@ -182,8 +226,10 @@ bool leer_coordenada(const char *input, size_t *fila, size_t *columna, unsigned 
 	return true;
 }
 
-carta_t *elegir_carta(lista_t *cartas, unsigned short filas, unsigned short columnas,
-		      carta_t *eleccion_previa, bool *turno)
+carta_t *elegir_carta(lista_t *cartas, 
+			unsigned int *fila_elegida, unsigned int *columna_elegida,
+			unsigned int filas, unsigned int columnas,
+			carta_t *eleccion_previa, bool *turno)
 {
 	if (!cartas || !turno)
 		return NULL;
@@ -193,13 +239,13 @@ carta_t *elegir_carta(lista_t *cartas, unsigned short filas, unsigned short colu
 	char *le_toca = (*turno) ? jugador2 : jugador1;
 	bool seleccion_valida = false;
 	char *input = NULL;
-	size_t fila = 999;
-	size_t columna = 999;
+	unsigned int fila = 999;
+	unsigned int columna = 999;
 	carta_t *carta_elegida = NULL;
 
 	while (seleccion_valida == false) {
 		free(input);
-		printf("\nSeleccione una carta %s (ej: A1, B3, C2): ", le_toca);
+		printf("\nSeleccione una carta %s (ej: A1, B2, C3): ", le_toca);
 		input = leer_linea_archivo(stdin);
 		printf(ANSI_CLEAR_LINE);
 
@@ -214,8 +260,7 @@ carta_t *elegir_carta(lista_t *cartas, unsigned short filas, unsigned short colu
 			continue;
 		}
 
-		carta_elegida = lista_buscar_elemento(cartas, fila * columnas +
-								      columna);
+		carta_elegida = lista_buscar_elemento(cartas, (size_t)fila * columnas + columna);
 		if (carta_elegida == NULL) {
 			printf("Error, esa carta no existe o no la encontramos :(");
 			continue;
@@ -232,6 +277,11 @@ carta_t *elegir_carta(lista_t *cartas, unsigned short filas, unsigned short colu
 		}
 
 		seleccion_valida = true;
+	}
+
+	if(fila_elegida != NULL && columna_elegida != NULL) {
+		*fila_elegida = fila;
+		*columna_elegida = columna;
 	}
 
 	free(input);
@@ -311,9 +361,17 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla, unsigned short us
 	char *basura = NULL;
 	carta_t *carta1 = NULL;
 	carta_t *carta2 = NULL;
-	printf(ANSI_ALTERNATIVE_SCREEN);
+	
+	unsigned int fila_elegida0;
+	unsigned int columna_elegida0;
+	unsigned int fila_elegida1;
+	unsigned int columna_elegida1;
+	size_t jugada_nro = 1;
+	char *ultimas_jugadas[5] = {0};
+	bool fue_acierto;
 
-	mostrar_tablero(cartas_mezcladas, cant_filas, cant_columnas, true);
+	printf(ANSI_ALTERNATIVE_SCREEN);
+	mostrar_tablero(cartas_mezcladas, cant_filas, cant_columnas, true, NULL);
 	printf("\nMemorizenlas!!\n"
 	       "Semilla actual: %i\n"
 	       "Presione ENTER para continuar...\n",
@@ -323,17 +381,17 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla, unsigned short us
 
 	while (cartas_eliminadas < lista_cantidad(cartas)) {
 		mostrar_tablero(cartas_mezcladas, cant_filas, cant_columnas,
-				false);
-		carta1 = elegir_carta(cartas_mezcladas, cant_filas,
+				false, ultimas_jugadas);
+		carta1 = elegir_carta(cartas_mezcladas, &fila_elegida0, &columna_elegida0, cant_filas,
 				      cant_columnas, NULL, &turno);
 		carta1->revelada = true;
 		mostrar_tablero(cartas_mezcladas, cant_filas, cant_columnas,
-				false);
-		carta2 = elegir_carta(cartas_mezcladas, cant_filas,
+				false, ultimas_jugadas);
+		carta2 = elegir_carta(cartas_mezcladas, &fila_elegida1, &columna_elegida1, cant_filas,
 				      cant_columnas, carta1, &turno);
 		carta2->revelada = true;
 		mostrar_tablero(cartas_mezcladas, cant_filas, cant_columnas,
-				false);
+				false, ultimas_jugadas);
 
 		if (carta1->pokemon_carta->id == carta2->pokemon_carta->id) {
 			printf("\n" ANSI_COLOR_GREEN
@@ -344,15 +402,20 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla, unsigned short us
 				j2_puntaje++;
 			else
 				j1_puntaje++;
+
+			fue_acierto = true;
 		} else {
 			printf("\n" ANSI_COLOR_RED "Incorrecto :(\n"
 			       "Las cartas no coinciden.\n" ANSI_COLOR_RESET);
 			carta1->revelada = carta2->revelada = false;
+			fue_acierto = false;
 		}
+
 		printf("\nPresione ENTER para continuar...");
 		basura = leer_linea_archivo(stdin);
 		free(basura);
 		turno = (turno) ? false : true;
+		actualizar_jugadas(ultimas_jugadas, &jugada_nro, fila_elegida0, columna_elegida0, fila_elegida1, columna_elegida1, fue_acierto);
 	}
 	char *ganador = (j1_puntaje > j2_puntaje) ? jugador1 : jugador2;
 	char *perdedor = (j1_puntaje < j2_puntaje) ? jugador1 : jugador2;
@@ -375,6 +438,10 @@ int juego(lista_t *pokemons_disponibles, unsigned int semilla, unsigned short us
 	}
 	getchar();
 	printf(ANSI_NORMAL_SCREEN);
+
+	for(i = 0; i < 5; i++) {
+		free(ultimas_jugadas[i]);
+	}
 	lista_destruir(pokemons_elegidos);
 	lista_destruir(cartas_mezcladas);
 	lista_destruir_todo(cartas, free);
