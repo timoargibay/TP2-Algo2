@@ -38,6 +38,7 @@ bool leer_coordenada(const char *input, size_t *fila, size_t *columna);
 carta_t *elegir_carta(lista_t *cartas, size_t filas, size_t columnas,
 		      carta_t *eleccion_previa, bool *turno);
 
-int juego(lista_t *pokemons_disponibles, unsigned int semilla, unsigned short user_cant_filas, unsigned short user_cant_columnas);
+int juego(lista_t *pokemons_disponibles, unsigned int semilla,
+	  unsigned short user_cant_filas, unsigned short user_cant_columnas);
 
 #endif

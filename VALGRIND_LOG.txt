@@ -1,14 +1,167 @@
-==6910== Memcheck, a memory error detector
-==6910== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
-==6910== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
-==6910== Command: ./tp2
-==6910== 
-==6910== 
-==6910== HEAP SUMMARY:
-==6910==     in use at exit: 0 bytes in 0 blocks
-==6910==   total heap usage: 1,666 allocs, 1,666 frees, 34,170 bytes allocated
-==6910== 
-==6910== All heap blocks were freed -- no leaks are possible
-==6910== 
-==6910== For lists of detected and suppressed errors, rerun with: -s
-==6910== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==47268== Memcheck, a memory error detector
+==47268== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==47268== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==47268== Command: ./tp2
+==47268== 
+==47268== 
+==47268== Process terminating with default action of signal 2 (SIGINT)
+==47268==    at 0x492918E: __internal_syscall_cancel (cancellation.c:64)
+==47268==    by 0x49291B3: __syscall_cancel (cancellation.c:75)
+==47268==    by 0x49A3A2D: read (read.c:26)
+==47268==    by 0x4923C1B: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:551)
+==47268==    by 0x49262D2: _IO_default_uflow (genops.c:388)
+==47268==    by 0x4003D9F: getchar (stdio.h:49)
+==47268==    by 0x4003D9F: configurar_dimensiones_juego.part.0 (tp2.c:250)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== HEAP SUMMARY:
+==47268==     in use at exit: 11,513 bytes in 330 blocks
+==47268==   total heap usage: 1,361 allocs, 1,031 frees, 29,096 bytes allocated
+==47268== 
+==47268== 16 bytes in 1 blocks are still reachable in loss record 1 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4003276: tp1_leer_archivo (tp1.c:24)
+==47268==    by 0x40012D6: main (tp2.c:552)
+==47268== 
+==47268== 16 bytes in 1 blocks are still reachable in loss record 2 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4003070: menu_crear (menu.c:27)
+==47268==    by 0x4003CE9: configurar_dimensiones_juego.part.0 (tp2.c:229)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 16 bytes in 1 blocks are still reachable in loss record 3 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4002B6B: lista_agregar (lista.c:72)
+==47268==    by 0x4003D04: configurar_dimensiones_juego.part.0 (tp2.c:235)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 16 bytes in 1 blocks are still reachable in loss record 4 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4002B6B: lista_agregar (lista.c:72)
+==47268==    by 0x4003D13: configurar_dimensiones_juego.part.0 (tp2.c:236)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 16 bytes in 1 blocks are still reachable in loss record 5 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4002B6B: lista_agregar (lista.c:72)
+==47268==    by 0x4003D22: configurar_dimensiones_juego.part.0 (tp2.c:237)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 22 bytes in 1 blocks are still reachable in loss record 6 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x400313E: copiar_string (menu.c:17)
+==47268==    by 0x400313E: menu_agregar_opcion (menu.c:55)
+==47268==    by 0x4003D22: configurar_dimensiones_juego.part.0 (tp2.c:237)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 24 bytes in 1 blocks are still reachable in loss record 7 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4002AED: lista_crear (lista.c:30)
+==47268==    by 0x4004412: array_a_lista (tp2.c:147)
+==47268==    by 0x40011C3: main (tp2.c:557)
+==47268== 
+==47268== 24 bytes in 1 blocks are still reachable in loss record 8 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4002AED: lista_crear (lista.c:30)
+==47268==    by 0x40030B4: menu_crear (menu.c:33)
+==47268==    by 0x4003CE9: configurar_dimensiones_juego.part.0 (tp2.c:229)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 29 bytes in 1 blocks are still reachable in loss record 9 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x400313E: copiar_string (menu.c:17)
+==47268==    by 0x400313E: menu_agregar_opcion (menu.c:55)
+==47268==    by 0x4003D04: configurar_dimensiones_juego.part.0 (tp2.c:235)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 29 bytes in 1 blocks are still reachable in loss record 10 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x400313E: copiar_string (menu.c:17)
+==47268==    by 0x400313E: menu_agregar_opcion (menu.c:55)
+==47268==    by 0x4003D13: configurar_dimensiones_juego.part.0 (tp2.c:236)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 31 bytes in 1 blocks are still reachable in loss record 11 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4003091: copiar_string (menu.c:17)
+==47268==    by 0x4003091: menu_crear (menu.c:31)
+==47268==    by 0x4003CE9: configurar_dimensiones_juego.part.0 (tp2.c:229)
+==47268==    by 0x40012C5: configurar_dimensiones_juego (tp2.c:226)
+==47268==    by 0x40012C5: main (tp2.c:595)
+==47268== 
+==47268== 669 bytes in 79 blocks are still reachable in loss record 12 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x40034E8: tp1_leer_archivo (tp1.c:94)
+==47268==    by 0x40012D6: main (tp2.c:552)
+==47268== 
+==47268== 669 bytes in 79 blocks are still reachable in loss record 13 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4003F3F: copiar_string (tp2.c:79)
+==47268==    by 0x4003F3F: copia_agrega_pokemon (tp2.c:106)
+==47268==    by 0x4003C14: tp1_con_cada_pokemon (tp1.c:365)
+==47268==    by 0x400442C: array_a_lista (tp2.c:151)
+==47268==    by 0x40011C3: main (tp2.c:557)
+==47268== 
+==47268== 1,024 bytes in 1 blocks are still reachable in loss record 14 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4915F3C: _IO_file_doallocate (filedoalloc.c:91)
+==47268==    by 0x49261E5: _IO_doallocbuf (genops.c:373)
+==47268==    by 0x49261E5: _IO_doallocbuf (genops.c:368)
+==47268==    by 0x4924058: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:779)
+==47268==    by 0x4924C7A: _IO_new_file_xsputn (fileops.c:1305)
+==47268==    by 0x4924C7A: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1258)
+==47268==    by 0x48F13E5: __printf_buffer_flush_to_file (printf_buffer_to_file.c:59)
+==47268==    by 0x48F14CB: __printf_buffer_to_file_done (printf_buffer_to_file.c:120)
+==47268==    by 0x48FCDF4: __vfprintf_internal (vfprintf-internal.c:1544)
+==47268==    by 0x48F0B72: printf (printf.c:33)
+==47268==    by 0x4004B05: fmenu_principal (tp2.c:526)
+==47268==    by 0x40011F6: main (tp2.c:570)
+==47268== 
+==47268== 1,024 bytes in 1 blocks are still reachable in loss record 15 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4915F3C: _IO_file_doallocate (filedoalloc.c:91)
+==47268==    by 0x49261E5: _IO_doallocbuf (genops.c:373)
+==47268==    by 0x49261E5: _IO_doallocbuf (genops.c:368)
+==47268==    by 0x4923CAE: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:520)
+==47268==    by 0x49262D2: _IO_default_uflow (genops.c:388)
+==47268==    by 0x4004B58: getchar (stdio.h:49)
+==47268==    by 0x4004B58: fmenu_principal (tp2.c:535)
+==47268==    by 0x40011F6: main (tp2.c:570)
+==47268== 
+==47268== 1,264 bytes in 79 blocks are still reachable in loss record 16 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4002B6B: lista_agregar (lista.c:72)
+==47268==    by 0x4003C14: tp1_con_cada_pokemon (tp1.c:365)
+==47268==    by 0x400442C: array_a_lista (tp2.c:151)
+==47268==    by 0x40011C3: main (tp2.c:557)
+==47268== 
+==47268== 2,528 bytes in 79 blocks are still reachable in loss record 17 of 18
+==47268==    at 0x48537A8: malloc (vg_replace_malloc.c:446)
+==47268==    by 0x4003F09: copia_agrega_pokemon (tp2.c:101)
+==47268==    by 0x4003C14: tp1_con_cada_pokemon (tp1.c:365)
+==47268==    by 0x400442C: array_a_lista (tp2.c:151)
+==47268==    by 0x40011C3: main (tp2.c:557)
+==47268== 
+==47268== 4,096 bytes in 1 blocks are still reachable in loss record 18 of 18
+==47268==    at 0x485AE4F: realloc (vg_replace_malloc.c:1801)
+==47268==    by 0x4003485: tp1_leer_archivo (tp1.c:80)
+==47268==    by 0x40012D6: main (tp2.c:552)
+==47268== 
+==47268== LEAK SUMMARY:
+==47268==    definitely lost: 0 bytes in 0 blocks
+==47268==    indirectly lost: 0 bytes in 0 blocks
+==47268==      possibly lost: 0 bytes in 0 blocks
+==47268==    still reachable: 11,513 bytes in 330 blocks
+==47268==         suppressed: 0 bytes in 0 blocks
+==47268== 
+==47268== For lists of detected and suppressed errors, rerun with: -s
+==47268== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

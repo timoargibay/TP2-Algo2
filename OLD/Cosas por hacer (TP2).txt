@@ -1,0 +1,9 @@
+- Arreglar pruebas_menu.c (LISTO)
+- Agregar explicacion de como se juega (LISTO)
+- Mostrar la semilla con la que se juega (LISTO)
+- Cargar archivo Y semilla manualmente? (LISTO)
+- Agregar opcion de cambiar cant filas y columnas (LISTO)
+- Arreglar mostrar pokemons por nombre (NO LISTO AUN: CASI)
+- Agregar opcion de cambiar estilos
+- Que menu resetee los estilos por si solo (??????)
+- Agregar muestra ultimas jugadas

@@ -1,0 +1,1053 @@
+------------------------------
+------------------------------
+ID: 23
+Nombre: EKANS
+Tipo: Normal
+Ataque: 60
+Defensa: 44
+Velocidad: 55
+------------------------------
+------------------------------
+ID: 24
+Nombre: ARBOK
+Tipo: Normal
+Ataque: 85
+Defensa: 69
+Velocidad: 80
+------------------------------
+------------------------------
+ID: 25
+Nombre: PIKACHU
+Tipo: Electrico
+Ataque: 55
+Defensa: 40
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 27
+Nombre: SANDSHREW
+Tipo: Normal
+Ataque: 75
+Defensa: 85
+Velocidad: 40
+------------------------------
+------------------------------
+ID: 29
+Nombre: NIDORANF
+Tipo: Normal
+Ataque: 47
+Defensa: 52
+Velocidad: 41
+------------------------------
+------------------------------
+ID: 30
+Nombre: NIDORINA
+Tipo: Normal
+Ataque: 62
+Defensa: 67
+Velocidad: 56
+------------------------------
+------------------------------
+ID: 31
+Nombre: NIDOQUEEN
+Tipo: Normal
+Ataque: 82
+Defensa: 87
+Velocidad: 76
+------------------------------
+------------------------------
+ID: 32
+Nombre: NIDORANM
+Tipo: Normal
+Ataque: 57
+Defensa: 40
+Velocidad: 50
+------------------------------
+------------------------------
+ID: 33
+Nombre: NIDORINO
+Tipo: Normal
+Ataque: 72
+Defensa: 57
+Velocidad: 65
+------------------------------
+------------------------------
+ID: 34
+Nombre: NIDOKING
+Tipo: Normal
+Ataque: 92
+Defensa: 77
+Velocidad: 85
+------------------------------
+------------------------------
+ID: 35
+Nombre: CLEFAIRY
+Tipo: Normal
+Ataque: 45
+Defensa: 48
+Velocidad: 35
+------------------------------
+------------------------------
+ID: 36
+Nombre: CLEFABLE
+Tipo: Normal
+Ataque: 70
+Defensa: 73
+Velocidad: 60
+------------------------------
+------------------------------
+ID: 37
+Nombre: VULPIX
+Tipo: Fuego
+Ataque: 41
+Defensa: 40
+Velocidad: 65
+------------------------------
+------------------------------
+ID: 38
+Nombre: NINETALES
+Tipo: Fuego
+Ataque: 76
+Defensa: 75
+Velocidad: 100
+------------------------------
+------------------------------
+ID: 39
+Nombre: JIGGLYPUFF
+Tipo: Normal
+Ataque: 45
+Defensa: 20
+Velocidad: 20
+------------------------------
+------------------------------
+ID: 40
+Nombre: WIGGLYTUFF
+Tipo: Normal
+Ataque: 70
+Defensa: 45
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 41
+Nombre: ZUBAT
+Tipo: Normal
+Ataque: 45
+Defensa: 35
+Velocidad: 55
+------------------------------
+------------------------------
+ID: 42
+Nombre: GOLBAT
+Tipo: Normal
+Ataque: 80
+Defensa: 70
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 43
+Nombre: ODDISH
+Tipo: Planta
+Ataque: 50
+Defensa: 55
+Velocidad: 30
+------------------------------
+------------------------------
+ID: 44
+Nombre: GLOOM
+Tipo: Planta
+Ataque: 65
+Defensa: 70
+Velocidad: 40
+------------------------------
+------------------------------
+ID: 45
+Nombre: VILEPLUME
+Tipo: Planta
+Ataque: 80
+Defensa: 85
+Velocidad: 50
+------------------------------
+------------------------------
+ID: 46
+Nombre: PARAS
+Tipo: Planta
+Ataque: 70
+Defensa: 55
+Velocidad: 25
+------------------------------
+------------------------------
+ID: 47
+Nombre: PARASECT
+Tipo: Planta
+Ataque: 95
+Defensa: 80
+Velocidad: 30
+------------------------------
+------------------------------
+ID: 48
+Nombre: VENONAT
+Tipo: Planta
+Ataque: 55
+Defensa: 50
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 49
+Nombre: VENOMOTH
+Tipo: Planta
+Ataque: 65
+Defensa: 60
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 50
+Nombre: DIGLETT
+Tipo: Normal
+Ataque: 55
+Defensa: 25
+Velocidad: 95
+------------------------------
+------------------------------
+ID: 51
+Nombre: MEOWTH
+Tipo: Normal
+Ataque: 45
+Defensa: 35
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 53
+Nombre: PSYDUCK
+Tipo: Agua
+Ataque: 52
+Defensa: 48
+Velocidad: 55
+------------------------------
+------------------------------
+ID: 54
+Nombre: GOLDUCK
+Tipo: Agua
+Ataque: 82
+Defensa: 78
+Velocidad: 85
+------------------------------
+------------------------------
+ID: 55
+Nombre: MANKEY
+Tipo: Normal
+Ataque: 80
+Defensa: 35
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 57
+Nombre: GROWLITHE
+Tipo: Fuego
+Ataque: 70
+Defensa: 45
+Velocidad: 60
+------------------------------
+------------------------------
+ID: 59
+Nombre: POLIWAG
+Tipo: Agua
+Ataque: 50
+Defensa: 40
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 60
+Nombre: POLIWHIRL
+Tipo: Agua
+Ataque: 65
+Defensa: 65
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 61
+Nombre: POLIWRATH
+Tipo: Agua
+Ataque: 95
+Defensa: 95
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 62
+Nombre: ABRA
+Tipo: Psiquico
+Ataque: 20
+Defensa: 15
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 65
+Nombre: MACHOP
+Tipo: Normal
+Ataque: 80
+Defensa: 50
+Velocidad: 35
+------------------------------
+------------------------------
+ID: 66
+Nombre: MACHOKE
+Tipo: Normal
+Ataque: 100
+Defensa: 70
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 68
+Nombre: BELLSPROUT
+Tipo: Planta
+Ataque: 75
+Defensa: 35
+Velocidad: 40
+------------------------------
+------------------------------
+ID: 69
+Nombre: WEEPINBELL
+Tipo: Planta
+Ataque: 90
+Defensa: 50
+Velocidad: 55
+------------------------------
+------------------------------
+ID: 71
+Nombre: TENTACOOL
+Tipo: Agua
+Ataque: 40
+Defensa: 35
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 72
+Nombre: TENTACRUEL
+Tipo: Agua
+Ataque: 70
+Defensa: 65
+Velocidad: 100
+------------------------------
+------------------------------
+ID: 73
+Nombre: GEODUDE
+Tipo: Normal
+Ataque: 80
+Defensa: 100
+Velocidad: 20
+------------------------------
+------------------------------
+ID: 76
+Nombre: PONYTA
+Tipo: Fuego
+Ataque: 85
+Defensa: 55
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 78
+Nombre: SLOWPOKE
+Tipo: Agua
+Ataque: 65
+Defensa: 65
+Velocidad: 15
+------------------------------
+------------------------------
+ID: 80
+Nombre: MAGNEMITE
+Tipo: Electrico
+Ataque: 35
+Defensa: 70
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 81
+Nombre: MAGNETON
+Tipo: Electrico
+Ataque: 60
+Defensa: 95
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 82
+Nombre: FARFETCHD
+Tipo: Normal
+Ataque: 65
+Defensa: 55
+Velocidad: 60
+------------------------------
+------------------------------
+ID: 83
+Nombre: DODUO
+Tipo: Normal
+Ataque: 85
+Defensa: 45
+Velocidad: 75
+------------------------------
+------------------------------
+ID: 85
+Nombre: SEEL
+Tipo: Agua
+Ataque: 45
+Defensa: 55
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 86
+Nombre: DEWGONG
+Tipo: Agua
+Ataque: 70
+Defensa: 80
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 87
+Nombre: GRIMER
+Tipo: Normal
+Ataque: 80
+Defensa: 50
+Velocidad: 25
+------------------------------
+------------------------------
+ID: 89
+Nombre: SHELLDER
+Tipo: Agua
+Ataque: 65
+Defensa: 100
+Velocidad: 40
+------------------------------
+------------------------------
+ID: 91
+Nombre: GASTLY
+------------------------------==
+ID: 62ar
+Nombre: ABRA semilla
+Tipo: Psiquicoivo
+Ataque: 20Pokemon...
+Defensa: 15Pokemon...
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 24
+Nombre: ARBOK
+Tipo: Normal
+Ataque: 85
+Defensa: 69
+Velocidad: 80
+------------------------------
+------------------------------
+ID: 15
+Nombre: BEEDRILL
+Tipo: Planta
+Ataque: 90
+Defensa: 40
+Velocidad: 75
+------------------------------
+------------------------------
+ID: 68
+Nombre: BELLSPROUT
+Tipo: Planta
+Ataque: 75
+Defensa: 35
+Velocidad: 40
+------------------------------
+------------------------------
+ID: 9
+Nombre: BLASTOISE
+Tipo: Agua
+Ataque: 83
+Defensa: 100
+Velocidad: 78
+------------------------------
+------------------------------
+ID: 1
+Nombre: BULBASAUR
+Tipo: Planta
+Ataque: 49
+Defensa: 49
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 12
+Nombre: BUTTERFREE
+Tipo: Planta
+Ataque: 45
+Defensa: 50
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 10
+Nombre: CATERPIE
+Tipo: Planta
+Ataque: 30
+Defensa: 35
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 6
+Nombre: CHARIZARD
+Tipo: Fuego
+Ataque: 84
+Defensa: 78
+Velocidad: 100
+------------------------------
+------------------------------
+ID: 4
+Nombre: CHARMANDER
+Tipo: Fuego
+Ataque: 52
+Defensa: 43
+Velocidad: 65
+------------------------------
+------------------------------
+ID: 5
+Nombre: CHARMELEON
+Tipo: Fuego
+Ataque: 64
+Defensa: 58
+Velocidad: 80
+------------------------------
+------------------------------
+ID: 36
+Nombre: CLEFABLE
+Tipo: Normal
+Ataque: 70
+Defensa: 73
+Velocidad: 60
+------------------------------
+------------------------------
+ID: 35
+Nombre: CLEFAIRY
+Tipo: Normal
+Ataque: 45
+Defensa: 48
+Velocidad: 35
+------------------------------
+------------------------------
+ID: 86
+Nombre: DEWGONG
+Tipo: Agua
+Ataque: 70
+Defensa: 80
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 50
+Nombre: DIGLETT
+Tipo: Normal
+Ataque: 55
+Defensa: 25
+Velocidad: 95
+------------------------------
+------------------------------
+ID: 83
+Nombre: DODUO
+Tipo: Normal
+Ataque: 85
+Defensa: 45
+Velocidad: 75
+------------------------------
+------------------------------
+ID: 95
+Nombre: DROWZEE
+Tipo: Psiquico
+Ataque: 48
+Defensa: 45
+Velocidad: 42
+------------------------------
+------------------------------
+ID: 97
+Nombre: EEVEE
+Tipo: Normal
+Ataque: 55
+Defensa: 50
+Velocidad: 55
+------------------------------
+------------------------------
+ID: 23
+Nombre: EKANS
+Tipo: Normal
+Ataque: 60
+Defensa: 44
+Velocidad: 55
+------------------------------
+------------------------------
+ID: 82
+Nombre: FARFETCHD
+Tipo: Normal
+Ataque: 65
+Defensa: 55
+Velocidad: 60
+------------------------------
+------------------------------
+ID: 22
+Nombre: FEAROW
+Tipo: Normal
+Ataque: 90
+Defensa: 65
+Velocidad: 100
+------------------------------
+------------------------------
+ID: 91
+Nombre: GASTLY
+Tipo: Psiquico
+Ataque: 35
+Defensa: 30
+Velocidad: 80
+------------------------------
+------------------------------
+ID: 73
+Nombre: GEODUDE
+Tipo: Normal
+Ataque: 80
+Defensa: 100
+Velocidad: 20
+------------------------------
+------------------------------
+ID: 44
+Nombre: GLOOM
+Tipo: Planta
+Ataque: 65
+Defensa: 70
+Velocidad: 40
+------------------------------
+------------------------------
+ID: 42
+Nombre: GOLBAT
+Tipo: Normal
+Ataque: 80
+Defensa: 70
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 54
+Nombre: GOLDUCK
+Tipo: Agua
+Ataque: 82
+Defensa: 78
+Velocidad: 85
+------------------------------
+------------------------------
+ID: 87
+Nombre: GRIMER
+Tipo: Normal
+Ataque: 80
+Defensa: 50
+Velocidad: 25
+------------------------------
+------------------------------
+ID: 57
+Nombre: GROWLITHE
+Tipo: Fuego
+Ataque: 70
+Defensa: 45
+Velocidad: 60
+------------------------------
+------------------------------
+ID: 92
+Nombre: HAUNTER
+Tipo: Psiquico
+Ataque: 50
+Defensa: 45
+Velocidad: 95
+------------------------------
+------------------------------
+ID: 96
+Nombre: HYPNO
+Tipo: Psiquico
+Ataque: 73
+Defensa: 70
+Velocidad: 67
+------------------------------
+------------------------------
+ID: 2
+Nombre: IVYSAUR
+Tipo: Planta
+Ataque: 62
+Defensa: 63
+Velocidad: 60
+------------------------------
+------------------------------
+ID: 39
+Nombre: JIGGLYPUFF
+Tipo: Normal
+Ataque: 45
+Defensa: 20
+Velocidad: 20
+------------------------------
+------------------------------
+ID: 14
+Nombre: KAKUNA
+Tipo: Planta
+Ataque: 25
+Defensa: 50
+Velocidad: 35
+------------------------------
+------------------------------
+ID: 66
+Nombre: MACHOKE
+Tipo: Normal
+Ataque: 100
+Defensa: 70
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 65
+Nombre: MACHOP
+Tipo: Normal
+Ataque: 80
+Defensa: 50
+Velocidad: 35
+------------------------------
+------------------------------
+ID: 80
+Nombre: MAGNEMITE
+Tipo: Electrico
+Ataque: 35
+Defensa: 70
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 81
+Nombre: MAGNETON
+Tipo: Electrico
+Ataque: 60
+Defensa: 95
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 55
+Nombre: MANKEY
+Tipo: Normal
+Ataque: 80
+Defensa: 35
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 51
+Nombre: MEOWTH
+Tipo: Normal
+Ataque: 45
+Defensa: 35
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 11
+Nombre: METAPOD
+Tipo: Planta
+Ataque: 20
+Defensa: 55
+Velocidad: 30
+------------------------------
+------------------------------
+ID: 34
+Nombre: NIDOKING
+Tipo: Normal
+Ataque: 92
+Defensa: 77
+Velocidad: 85
+------------------------------
+------------------------------
+ID: 31
+Nombre: NIDOQUEEN
+Tipo: Normal
+Ataque: 82
+Defensa: 87
+Velocidad: 76
+------------------------------
+------------------------------
+ID: 29
+Nombre: NIDORANF
+Tipo: Normal
+Ataque: 47
+Defensa: 52
+Velocidad: 41
+------------------------------
+------------------------------
+ID: 32
+Nombre: NIDORANM
+Tipo: Normal
+Ataque: 57
+Defensa: 40
+Velocidad: 50
+------------------------------
+------------------------------
+ID: 30
+Nombre: NIDORINA
+Tipo: Normal
+Ataque: 62
+Defensa: 67
+Velocidad: 56
+------------------------------
+------------------------------
+ID: 33
+Nombre: NIDORINO
+Tipo: Normal
+Ataque: 72
+Defensa: 57
+Velocidad: 65
+------------------------------
+------------------------------
+ID: 38
+Nombre: NINETALES
+Tipo: Fuego
+Ataque: 76
+Defensa: 75
+Velocidad: 100
+------------------------------
+------------------------------
+ID: 43
+Nombre: ODDISH
+Tipo: Planta
+Ataque: 50
+Defensa: 55
+Velocidad: 30
+------------------------------
+------------------------------
+ID: 46
+Nombre: PARAS
+Tipo: Planta
+Ataque: 70
+Defensa: 55
+Velocidad: 25
+------------------------------
+------------------------------
+ID: 47
+Nombre: PARASECT
+Tipo: Planta
+Ataque: 95
+Defensa: 80
+Velocidad: 30
+------------------------------
+------------------------------
+ID: 17
+Nombre: PIDGEOTTO
+Tipo: Normal
+Ataque: 60
+Defensa: 55
+Velocidad: 71
+------------------------------
+------------------------------
+ID: 16
+Nombre: PIDGEY
+Tipo: Normal
+Ataque: 45
+Defensa: 40
+Velocidad: 56
+------------------------------
+------------------------------
+ID: 25
+Nombre: PIKACHU
+Tipo: Electrico
+Ataque: 55
+Defensa: 40
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 59
+Nombre: POLIWAG
+Tipo: Agua
+Ataque: 50
+Defensa: 40
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 60
+Nombre: POLIWHIRL
+Tipo: Agua
+Ataque: 65
+Defensa: 65
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 61
+Nombre: POLIWRATH
+Tipo: Agua
+Ataque: 95
+Defensa: 95
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 76
+Nombre: PONYTA
+Tipo: Fuego
+Ataque: 85
+Defensa: 55
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 53
+Nombre: PSYDUCK
+Tipo: Agua
+Ataque: 52
+Defensa: 48
+Velocidad: 55
+------------------------------
+------------------------------
+ID: 20
+Nombre: RATICATE
+Tipo: Normal
+Ataque: 81
+Defensa: 60
+Velocidad: 97
+------------------------------
+------------------------------
+ID: 19
+Nombre: RATTATA
+Tipo: Normal
+Ataque: 56
+Defensa: 35
+Velocidad: 72
+------------------------------
+------------------------------
+ID: 27
+Nombre: SANDSHREW
+Tipo: Normal
+Ataque: 75
+Defensa: 85
+Velocidad: 40
+------------------------------
+------------------------------
+ID: 85
+Nombre: SEEL
+Tipo: Agua
+Ataque: 45
+Defensa: 55
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 89
+Nombre: SHELLDER
+Tipo: Agua
+Ataque: 65
+Defensa: 100
+Velocidad: 40
+------------------------------
+------------------------------
+ID: 78
+Nombre: SLOWPOKE
+Tipo: Agua
+Ataque: 65
+Defensa: 65
+Velocidad: 15
+------------------------------
+------------------------------
+ID: 21
+Nombre: SPEAROW
+Tipo: Normal
+Ataque: 60
+Defensa: 30
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 7
+Nombre: SQUIRTLE
+Tipo: Agua
+Ataque: 48
+Defensa: 65
+Velocidad: 43
+------------------------------
+------------------------------
+ID: 71
+Nombre: TENTACOOL
+Tipo: Agua
+Ataque: 40
+Defensa: 35
+Velocidad: 70
+------------------------------
+------------------------------
+ID: 72
+Nombre: TENTACRUEL
+Tipo: Agua
+Ataque: 70
+Defensa: 65
+Velocidad: 100
+------------------------------
+------------------------------
+ID: 98
+Nombre: VAPOREON
+Tipo: Agua
+Ataque: 65
+Defensa: 60
+Velocidad: 65
+------------------------------
+------------------------------
+ID: 49
+Nombre: VENOMOTH
+Tipo: Planta
+Ataque: 65
+Defensa: 60
+Velocidad: 90
+------------------------------
+------------------------------
+ID: 48
+Nombre: VENONAT
+Tipo: Planta
+Ataque: 55
+Defensa: 50
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 3
+Nombre: VENUSAUR
+Tipo: Planta
+Ataque: 82
+Defensa: 83
+Velocidad: 80
+------------------------------
+------------------------------
+ID: 45
+Nombre: VILEPLUME
+Tipo: Planta
+Ataque: 80
+Defensa: 85
+Velocidad: 50
+------------------------------
+------------------------------
+ID: 37
+Nombre: VULPIX
+Tipo: Fuego
+Ataque: 41
+Defensa: 40
+Velocidad: 65
+------------------------------
+------------------------------
+ID: 8
+Nombre: WARTORTLE
+Tipo: Agua
+Ataque: 63
+Defensa: 80
+Velocidad: 58
+------------------------------
+------------------------------
+ID: 13
+Nombre: WEEDLE
+Tipo: Planta
+Ataque: 35
+Defensa: 30
+Velocidad: 50
+------------------------------
+------------------------------
+ID: 69
+Nombre: WEEPINBELL
+Tipo: Planta
+Ataque: 90
+Defensa: 50
+Velocidad: 55
+------------------------------
+------------------------------
+ID: 40
+Nombre: WIGGLYTUFF
+Tipo: Normal
+Ataque: 70
+Defensa: 45
+Velocidad: 45
+------------------------------
+------------------------------
+ID: 41
+Nombre: ZUBAT
+Tipo: Normal
+Ataque: 45
+Defensa: 35
+Velocidad: 55
+------------------------------
+Presiona enter para continuar....

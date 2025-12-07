@@ -175,7 +175,8 @@ unsigned int llamar_juego_con_semilla()
 	return (unsigned int)semilla;
 }
 
-void jugar_archivo_propio(unsigned int semilla, unsigned short filas, unsigned short columnas)
+void jugar_archivo_propio(unsigned int semilla, unsigned short filas,
+			  unsigned short columnas)
 {
 	char input = 0;
 	tp1_t *carga_manual = NULL;
@@ -221,13 +222,16 @@ void fcomo_se_juega()
 	getchar();
 }
 
-void configurar_dimensiones_juego(unsigned short *filas, unsigned short *columnas)
+void configurar_dimensiones_juego(unsigned short *filas,
+				  unsigned short *columnas)
 {
-	if(filas == NULL || columnas == NULL)
+	if (filas == NULL || columnas == NULL)
 		return;
 
-	menu_t *config = menu_crear(ANSI_COLOR_BOLD ANSI_BG_RED "Configuracion" ANSI_BG_RESET ANSI_COLOR_RESET);
-	if(config == NULL)
+	menu_t *config =
+		menu_crear(ANSI_COLOR_BOLD ANSI_BG_RED
+			   "Configuracion" ANSI_BG_RESET ANSI_COLOR_RESET);
+	if (config == NULL)
 		return;
 
 	size_t i;
@@ -239,47 +243,58 @@ void configurar_dimensiones_juego(unsigned short *filas, unsigned short *columna
 	short valor_nuevo_preprocesado;
 	char *input_crudo = NULL;
 
-	while(salir == false) {
-		printf(ANSI_ALTERNATIVE_SCREEN ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP);
+	while (salir == false) {
+		printf(ANSI_ALTERNATIVE_SCREEN ANSI_CLEAR_SCREEN
+			       ANSI_CURSOR_TOP);
 
 		printf("%s\n", menu_mostrar_titulo(config));
-		for(i = 0; i < menu_cantidad(config); i++) 
+		for (i = 0; i < menu_cantidad(config); i++)
 			printf("%s\n", menu_get_opcion(config, i));
 
-		printf("\nCantidad actual de filas: %i\nCantidad actual de columnas: %i\n", *filas, *columnas);
+		printf("\nCantidad actual de filas: %i\nCantidad actual de columnas: %i\n",
+		       *filas, *columnas);
 		input = tolower_propio((char)getchar());
 		getchar();
 
 		switch (input) {
 		case 'f':
 			valor_nuevo_preprocesado = 0;
-			while(valor_nuevo_preprocesado < 2 || valor_nuevo_preprocesado > 9) {
-				printf(ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP"Ingrese la cantidad de filas: ");
+			while (valor_nuevo_preprocesado < 2 ||
+			       valor_nuevo_preprocesado > 9) {
+				printf(ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP
+				       "Ingrese la cantidad de filas: ");
 				input_crudo = leer_linea_archivo(stdin);
-				valor_nuevo_preprocesado = (short int)strtnum(input_crudo);
+				valor_nuevo_preprocesado =
+					(short int)strtnum(input_crudo);
 				free(input_crudo);
 
-
-				if(valor_nuevo_preprocesado < 2 || valor_nuevo_preprocesado > 9) {
+				if (valor_nuevo_preprocesado < 2 ||
+				    valor_nuevo_preprocesado > 9) {
 					printf("ERROR: Valor debe ser mayor a 2 y menor a 10.");
 					getchar();
 				} else {
-					*filas = (unsigned short)valor_nuevo_preprocesado;
+					*filas = (unsigned short)
+						valor_nuevo_preprocesado;
 				}
 			}
 			break;
 		case 'c':
 			valor_nuevo_preprocesado = 0;
-			while(valor_nuevo_preprocesado < 2 || valor_nuevo_preprocesado > 9) {
-				printf(ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP"Ingrese la cantidad de filas: ");
+			while (valor_nuevo_preprocesado < 2 ||
+			       valor_nuevo_preprocesado > 9) {
+				printf(ANSI_CLEAR_SCREEN ANSI_CURSOR_TOP
+				       "Ingrese la cantidad de filas: ");
 				input_crudo = leer_linea_archivo(stdin);
-				valor_nuevo_preprocesado = (short int)strtnum(input_crudo);
+				valor_nuevo_preprocesado =
+					(short int)strtnum(input_crudo);
 				free(input_crudo);
-				if(valor_nuevo_preprocesado < 2 || valor_nuevo_preprocesado > 9) {
+				if (valor_nuevo_preprocesado < 2 ||
+				    valor_nuevo_preprocesado > 9) {
 					printf("ERROR: Valor debe ser mayor a 2 y menor a 9.");
 					getchar();
 				} else {
-					*columnas = (unsigned short)valor_nuevo_preprocesado;
+					*columnas = (unsigned short)
+						valor_nuevo_preprocesado;
 				}
 			}
 			break;
@@ -287,8 +302,6 @@ void configurar_dimensiones_juego(unsigned short *filas, unsigned short *columna
 			salir = true;
 			break;
 		}
-
-		
 	}
 	menu_destruir(config);
 }
@@ -564,20 +577,22 @@ int main(int argc, char *argumento[])
 	char input;
 	unsigned int semilla = (unsigned int)time(NULL);
 	unsigned short cantidad_columnas = 6;
-	unsigned short cantidad_filas  = 3;
+	unsigned short cantidad_filas = 3;
 
 	while (terminar == false) {
 		input = fmenu_principal(semilla);
 		getchar();
 		switch (input) {
 		case 'j':
-			juego(pokemons_lista, semilla, cantidad_filas, cantidad_columnas);
+			juego(pokemons_lista, semilla, cantidad_filas,
+			      cantidad_columnas);
 			break;
 		case 's':
 			semilla = llamar_juego_con_semilla();
 			break;
 		case 'c':
-			jugar_archivo_propio(semilla, cantidad_filas, cantidad_columnas);
+			jugar_archivo_propio(semilla, cantidad_filas,
+					     cantidad_columnas);
 			break;
 		case 'b':
 			menues_buscar(pokemons_lista);
@@ -592,7 +607,8 @@ int main(int argc, char *argumento[])
 			fcomo_se_juega();
 			break;
 		case 'a':
-			configurar_dimensiones_juego(&cantidad_filas, &cantidad_columnas);
+			configurar_dimensiones_juego(&cantidad_filas,
+						     &cantidad_columnas);
 			break;
 		case 'q':
 			terminar = true;
